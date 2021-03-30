@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context privileged="true" reloadable="true">
+	<WatchedResource>WEB-INF/web.xml</WatchedResource>
+	<Manager pathname="" />
+	<Resource name="jdbc/notAmazonDB"
+		factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+		type="javax.sql.DataSource"
+		driverClassName="org.apache.derby.jdbc.EmbeddedDriver"
+		url="jdbc:derby:C:\Users\Ajeet\Documents\EECS4413\project\backend\EECS-4413-notAmazon\notAmazonDB" />
+	<ResourceLink global="jdbc/notAmazonDB" name="jdbc/notAmazonDB"
+		type="javax.sql.DataSource" />
+</Context>
