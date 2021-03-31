@@ -6,7 +6,7 @@
 		factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
 		type="javax.sql.DataSource"
 		driverClassName="org.apache.derby.jdbc.EmbeddedDriver"
-		url="jdbc:derby:C:\Users\chris\Desktop\EECS 4413\EECS-4413-notAmazon\notAmazonDB" />
+		url="jdbc:derby:C:\Users\Ajeet\Documents\EECS4413\project\backend\EECS-4413-notAmazon\notAmazonDB" />
 	<ResourceLink global="jdbc/notAmazonDB" name="jdbc/notAmazonDB"
 		type="javax.sql.DataSource" />
 </Context>
