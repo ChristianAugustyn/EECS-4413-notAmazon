@@ -1,5 +1,6 @@
 package model;
 
+import java.lang.reflect.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.json.Json;
@@ -55,8 +56,26 @@ public class NotAmazonModel {
 		return jsonResult.toString();
 	}
 	
-	
-	
+	public String getBookByID(String id) throws SQLException {
+		ArrayList<BookBean> dbResult = bookDAO.getBookByID(id);
+		
+		if (dbResult.size() == 0) {
+			String errorMessage = String.format("Book with id: %s , does not exist", id);
+			JsonObjectBuilder error = Json.createObjectBuilder().add("error", errorMessage);
+			
+			return error.build().toString();
+		}
+		
+		BookBean b = dbResult.get(0); 
+		
+		JsonObjectBuilder book = Json.createObjectBuilder();
+		book.add("bid", b.getBid()).add("title", b.getTitle()).add("price", b.getPrice()).add("category", b.getCategory());
+		
+		JsonObjectBuilder resultObj = Json.createObjectBuilder().add("book", book);
+		
+		return resultObj.build().toString();
+		
+	}
 	
 	public int insertTest(int id, String message) throws SQLException {
 		return testDAO.insertToTest(id, message);
