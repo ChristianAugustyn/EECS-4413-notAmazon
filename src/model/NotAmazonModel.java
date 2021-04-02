@@ -27,22 +27,36 @@ public class NotAmazonModel {
 		return instance;
 	}
 	
-//	public JsonObject getAllBooks() throws SQLException {
-//		ArrayList<BookBean> dbResult = bookDAO.getAllBooks();
-//		
-//		JsonArrayBuilder books = Json.createArrayBuilder();
-//		for (BookBean book: dbResult) {
-//			JsonObjectBuilder jsonBook = Json.createObjectBuilder();
-//			jsonBook.add("bid", book.getBid()).add("title", book.getTitle()).add("price", book.getPrice()).add("category", book.getCategory());
-//			books.add(jsonBook);
-//		}
-//		JsonObjectBuilder resultObject = Json.createObjectBuilder().add("allBooks", books);
-//		JsonObject jsonResult = resultObject.build();
-//		return jsonResult;
-//	}
-	
 	public String getAllBooks() throws SQLException {
 		ArrayList<BookBean> dbResult = bookDAO.getAllBooks();
+		
+		JsonArrayBuilder books = Json.createArrayBuilder();
+		for (BookBean book: dbResult) {
+			JsonObjectBuilder jsonBook = Json.createObjectBuilder();
+			jsonBook.add("bid", book.getBid()).add("title", book.getTitle()).add("price", book.getPrice()).add("category", book.getCategory());
+			books.add(jsonBook);
+		}
+		JsonObjectBuilder resultObject = Json.createObjectBuilder().add("allBooks", books);
+		JsonObject jsonResult = resultObject.build();
+		return jsonResult.toString();
+	}
+	
+	public String getBooksByName(String name) throws SQLException {
+		ArrayList<BookBean> dbResult = bookDAO.getBooksByName(name);
+		
+		JsonArrayBuilder books = Json.createArrayBuilder();
+		for (BookBean book: dbResult) {
+			JsonObjectBuilder jsonBook = Json.createObjectBuilder();
+			jsonBook.add("bid", book.getBid()).add("title", book.getTitle()).add("price", book.getPrice()).add("category", book.getCategory());
+			books.add(jsonBook);
+		}
+		JsonObjectBuilder resultObject = Json.createObjectBuilder().add("allBooks", books);
+		JsonObject jsonResult = resultObject.build();
+		return jsonResult.toString();
+	}
+	
+	public String getBooksByCategory(String cat) throws SQLException {
+		ArrayList<BookBean> dbResult = bookDAO.getBooksByCategory(cat);
 		
 		JsonArrayBuilder books = Json.createArrayBuilder();
 		for (BookBean book: dbResult) {
