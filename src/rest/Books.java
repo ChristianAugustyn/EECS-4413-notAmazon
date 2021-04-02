@@ -23,7 +23,7 @@ public class Books {
 	
 	@GET
 	@Path("/allbooks")
-	@Produces("application/json")
+	@Produces(MediaType.APPLICATION_JSON)
 	public String getAllBooks() throws ClassNotFoundException, SQLException {
 		
 		String allBooks = NotAmazonModel.getInstance().getAllBooks();
@@ -32,8 +32,8 @@ public class Books {
 	
 	@GET
 	@Path("/bookbyname")
-	@Consumes("text/plain")
-	@Produces("text/plain")
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	public String getBooksByName(@QueryParam("name") String name) throws ClassNotFoundException, SQLException {
 		String allBooks = NotAmazonModel.getInstance().getBooksByName(name);
 		return allBooks;
@@ -41,8 +41,8 @@ public class Books {
 	
 	@GET
 	@Path("/bookbycat")
-	@Consumes("text/plain")
-	@Produces("text/plain")
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	public String getBooksByCategory(@QueryParam("cat") String cat) throws ClassNotFoundException, SQLException {
 		String allBooks = NotAmazonModel.getInstance().getBooksByCategory(cat);
 		return allBooks;
