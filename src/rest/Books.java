@@ -18,11 +18,14 @@ import model.NotAmazonModel;
 @Path("/books")
 public class Books {
 	
+
+	
 	@GET
 	@Path("/allbooks")
 //	@Produces(MediaType.APPLICATION_JSON)
 	@Produces("application/json")
 	public String getAllBooks() throws ClassNotFoundException, SQLException {
+		
 		String allBooks = NotAmazonModel.getInstance().getAllBooks();
 		return allBooks;
 	}
