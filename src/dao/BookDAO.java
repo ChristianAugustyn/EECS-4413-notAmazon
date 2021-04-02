@@ -65,7 +65,7 @@ public class BookDAO {
 	}
 	
 	public ArrayList<BookBean> getBooksByCategory(String cat) throws SQLException{
-		String query = "SELECT * FROM book WHERE lower(category) like '%" + cat +"%'";
+		String query = "SELECT * FROM book WHERE lower(category) = '" + cat + "'";
 		Connection con = this.ds.getConnection();
 		PreparedStatement stmt = con.prepareStatement(query);
 		ResultSet r = stmt.executeQuery();
