@@ -43,5 +43,45 @@ public class BookDAO {
 		return result;
 		
 	}
+	
+	public ArrayList<BookBean> getBooksByName(String name) throws SQLException{
+		String query = "SELECT * FROM book WHERE lower(title) like '%" + name +"%'";
+		Connection con = this.ds.getConnection();
+		PreparedStatement stmt = con.prepareStatement(query);
+		ResultSet r = stmt.executeQuery();
+		ArrayList<BookBean> result = new ArrayList<BookBean>();
+		while(r.next()) {
+			String bid = r.getString("BID");
+			String title = r.getString("TITLE");
+			double price = r.getDouble("PRICE");
+			String category = r.getString("CATEGORY");
+			BookBean book = new BookBean(bid, title, price, category);
+			result.add(book);
+		}
+		r.close();
+		stmt.close();
+		con.close();
+		return result;
+	}
+	
+	public ArrayList<BookBean> getBooksByCategory(String cat) throws SQLException{
+		String query = "SELECT * FROM book WHERE lower(category) like '%" + cat +"%'";
+		Connection con = this.ds.getConnection();
+		PreparedStatement stmt = con.prepareStatement(query);
+		ResultSet r = stmt.executeQuery();
+		ArrayList<BookBean> result = new ArrayList<BookBean>();
+		while(r.next()) {
+			String bid = r.getString("BID");
+			String title = r.getString("TITLE");
+			double price = r.getDouble("PRICE");
+			String category = r.getString("CATEGORY");
+			BookBean book = new BookBean(bid, title, price, category);
+			result.add(book);
+		}
+		r.close();
+		stmt.close();
+		con.close();
+		return result;
+	}
 
 }
