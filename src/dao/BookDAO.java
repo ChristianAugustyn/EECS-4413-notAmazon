@@ -83,5 +83,26 @@ public class BookDAO {
 		con.close();
 		return result;
 	}
+	
+	public ArrayList<BookBean> getBookByID(String id) throws SQLException {
+		String query = "SELECT * FROM BOOK WHERE bid = ?";
+		Connection con = this.ds.getConnection();
+		PreparedStatement stmnt = con.prepareStatement(query);
+		stmnt.setString(1, id);
+		ResultSet r = stmnt.executeQuery();
+		ArrayList<BookBean> res = new ArrayList<BookBean>();
+		while(r.next()) {
+			String bid = r.getString("BID");
+			String title = r.getString("TITLE");
+			double price = r.getDouble("PRICE");
+			String category = r.getString("CATEGORY");
+			BookBean book = new BookBean(bid, title, price, category);
+			res.add(book);
+		}
+		r.close();
+		stmnt.close();
+		con.close();
+		return res;
+	}
 
 }
