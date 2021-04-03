@@ -71,5 +71,30 @@ public class Books {
 		return categories;
 	}
 	
+	@GET
+	@Path("/allReviews")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getAllReviews() throws ClassNotFoundException, SQLException {
+		String allReviews = NotAmazonModel.getInstance().getAllReviews();
+		return allReviews;
+	}
+	
+	@GET
+	@Path("/reviewByBookId")
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getReviewsByBook(@QueryParam("bookId") String bookId) throws ClassNotFoundException, SQLException {
+		String allReviews = NotAmazonModel.getInstance().getReviewsByBook(bookId);
+		return allReviews;
+	}
+	
+	@GET
+	@Path("/averageRatingByBookId")
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getAverageRatingByBook(@QueryParam("bookId") String bookId) throws ClassNotFoundException, SQLException {
+		String allReviews = NotAmazonModel.getInstance().getAverageRatingByBookId(bookId);
+		return allReviews;
+	}
 
 }

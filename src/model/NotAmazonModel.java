@@ -8,13 +8,14 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 
-import bean.BookBean;
+import bean.*;
 import dao.*;
 
 public class NotAmazonModel {
 	private static NotAmazonModel instance;
 	TestDAO testDAO;
 	BookDAO bookDAO;
+	ReviewDAO reviewDAO;
 	
 	private NotAmazonModel() {
 	}
@@ -24,6 +25,7 @@ public class NotAmazonModel {
 			instance = new NotAmazonModel();
 			instance.testDAO = new TestDAO();
 			instance.bookDAO = new BookDAO();
+			instance.reviewDAO = new ReviewDAO();
 		}
 		return instance;
 	}
@@ -55,6 +57,7 @@ public class NotAmazonModel {
 		JsonObject jsonResult = resultObject.build();
 		return jsonResult.toString();
 	}
+	
 	public String getBookByID(String id) throws SQLException {
 		ArrayList<BookBean> dbResult = bookDAO.getBookByID(id);
 		
@@ -98,6 +101,40 @@ public class NotAmazonModel {
 		}
 		JsonObjectBuilder resultObject = Json.createObjectBuilder().add("categories", categories);
 		return resultObject.build().toString();
+	}
+	public String getAllReviews() throws SQLException {
+		ArrayList<ReviewBean> dbResult = reviewDAO.getAllReviews();
+		
+		JsonArrayBuilder reviews = Json.createArrayBuilder();
+		for (ReviewBean review: dbResult) {
+			JsonObjectBuilder jsonReview = Json.createObjectBuilder();
+            jsonReview.add("id", review.getId()).add("bid", review.getBid()).add("rating", review.getRating()).add("message", review.getMessage());
+			reviews.add(jsonReview);
+		}
+		JsonObjectBuilder resultObject = Json.createObjectBuilder().add("allReviews", reviews);
+		JsonObject jsonResult = resultObject.build();
+		return jsonResult.toString();
+	}
+	
+	public String getReviewsByBook(String bookId) throws SQLException {
+		ArrayList<ReviewBean> dbResult = reviewDAO.getReviewsByBook(bookId);
+		
+		JsonArrayBuilder reviews = Json.createArrayBuilder();
+		for (ReviewBean review: dbResult) {
+			JsonObjectBuilder jsonReview = Json.createObjectBuilder();
+			jsonReview.add("id", review.getId()).add("bid", review.getBid()).add("rating", review.getRating()).add("message", review.getMessage());
+			reviews.add(jsonReview);
+		}
+		JsonObjectBuilder resultObject = Json.createObjectBuilder().add("allReviews", reviews);
+		JsonObject jsonResult = resultObject.build();
+		return jsonResult.toString();
+	}
+	
+	public String getAverageRatingByBookId(String bookId) throws SQLException {
+		JsonObjectBuilder avgRating = Json.createObjectBuilder();
+		avgRating.add("bid", bookId).add("avgRating", reviewDAO.getAverageRatingByBookId(bookId));
+		JsonObjectBuilder resultObj = Json.createObjectBuilder().add("averageRating", avgRating);
+		return resultObj.build().toString();
 	}
 	
 	public int insertTest(int id, String message) throws SQLException {
