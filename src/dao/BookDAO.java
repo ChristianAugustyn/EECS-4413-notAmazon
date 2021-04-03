@@ -104,5 +104,21 @@ public class BookDAO {
 		con.close();
 		return res;
 	}
+	
+	public ArrayList<String> getCategories() throws SQLException {
+		String query = "select distinct category from BOOK order by category asc";
+		Connection con = this.ds.getConnection();
+		PreparedStatement stmnt = con.prepareStatement(query);
+		ResultSet r = stmnt.executeQuery();
+		
+		ArrayList<String> res = new ArrayList<String>();
+		while(r.next()) {
+			res.add(r.getString("CATEGORY"));
+		}
+		r.close();
+		stmnt.close();
+		con.close();
+		return res;
+	}
 
 }

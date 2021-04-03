@@ -90,8 +90,15 @@ public class NotAmazonModel {
 		return jsonResult.toString();
 	}
 	
-	
-	
+	public String getCategories() throws SQLException {
+		ArrayList<String> dbResult = bookDAO.getCategories();
+		JsonArrayBuilder categories = Json.createArrayBuilder();
+		for (String c: dbResult) {
+			categories.add(c);
+		}
+		JsonObjectBuilder resultObject = Json.createObjectBuilder().add("categories", categories);
+		return resultObject.build().toString();
+	}
 	
 	public int insertTest(int id, String message) throws SQLException {
 		return testDAO.insertToTest(id, message);
