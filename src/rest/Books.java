@@ -47,6 +47,7 @@ public class Books {
 		String allBooks = NotAmazonModel.getInstance().getBooksByCategory(cat);
 		return allBooks;
 	}
+	
 	@POST
 	@Path("/getbook")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -60,6 +61,14 @@ public class Books {
 		String book = NotAmazonModel.getInstance().getBookByID(bid);
 		
 		return book;
+	}
+	
+	@GET
+	@Path("/categories")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getCatgories() throws ClassNotFoundException, SQLException {
+		String categories = NotAmazonModel.getInstance().getCategories();
+		return categories;
 	}
 	
 
