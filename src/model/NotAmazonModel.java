@@ -66,10 +66,11 @@ public class NotAmazonModel {
 		ArrayList<BookBean> dbResult = bookDAO.getBookByID(id);
 		
 		if (dbResult.size() == 0) {
-			String errorMessage = String.format("Book with id: %s , does not exist", id);
-			JsonObjectBuilder error = Json.createObjectBuilder().add("error", errorMessage);
-			
-			return error.build().toString();
+			throw new SQLException("Book with id: " + id +" , does not exist");
+//			String errorMessage = String.format("Book with id: %s , does not exist", id);
+//			JsonObjectBuilder error = Json.createObjectBuilder().add("error", errorMessage);
+//			
+//			return error.build().toString();
 		}
 		
 		BookBean b = dbResult.get(0); 
