@@ -42,23 +42,24 @@ public class Reviews {
 		return allReviews;
 	}
 	
-	@POST
-	@Path("/addReview")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public String getBook(String data) throws ClassNotFoundException, SQLException {
-		JSONObject recoveryData = new JSONObject(data);
+// 	is currently broken
+// 	@POST
+// 	@Path("/addReview")
+// 	@Consumes(MediaType.APPLICATION_JSON)
+// 	@Produces(MediaType.APPLICATION_JSON)
+// 	public String getBook(String data) throws ClassNotFoundException, SQLException {
+// 		JSONObject recoveryData = new JSONObject(data);
 		
-		String bid = recoveryData.getString("bid");
-		String rTitle = recoveryData.getString("rtitle");
-		String lName = recoveryData.getString("lname");
-		String fName = recoveryData.getString("fname");
-		int rating = recoveryData.getInt("rating");
-		String message = recoveryData.getString("message");
+// 		String bid = recoveryData.getString("bid");
+// 		String rTitle = recoveryData.getString("rtitle");
+// 		String lName = recoveryData.getString("lname");
+// 		String fName = recoveryData.getString("fname");
+// 		int rating = recoveryData.getInt("rating");
+// 		String message = recoveryData.getString("message");
 		
-		String review = NotAmazonModel.getInstance().addReview(bid, rTitle, lName, fName, rating, message);
+// 		String review = NotAmazonModel.getInstance().addReview(bid, rTitle, lName, fName, rating, message);
 		
-		return review;
-	}
+// 		return review;
+// 	}
 	
 }
