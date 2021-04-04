@@ -16,6 +16,8 @@ public class NotAmazonModel {
 	TestDAO testDAO;
 	BookDAO bookDAO;
 	ReviewDAO reviewDAO;
+	AddressDAO addressDAO;
+	PurchaseOrderDAO purchaseOrderDAO;
 	
 	private NotAmazonModel() {
 	}
@@ -26,6 +28,8 @@ public class NotAmazonModel {
 			instance.testDAO = new TestDAO();
 			instance.bookDAO = new BookDAO();
 			instance.reviewDAO = new ReviewDAO();
+			instance.addressDAO = new AddressDAO();
+			instance.purchaseOrderDAO = new PurchaseOrderDAO();
 		}
 		return instance;
 	}
@@ -128,13 +132,34 @@ public class NotAmazonModel {
 		return resultObj.build().toString();
 	}
 	
-// 	might want to do this in way that also gives review id
 	public String addReview(String bid, String rTitle, String lName, String fName, int rating, String message) throws SQLException {
-		reviewDAO.addReview(bid, rTitle, lName, fName, rating, message);
+		int id = reviewDAO.addReview(bid, rTitle, lName, fName, rating, message);
 		
 		JsonObjectBuilder addedReview = Json.createObjectBuilder();
-		addedReview.add("bid", bid).add("rtitle", rTitle).add("lname", lName).add("fname", fName).add("rating", rating).add("message", message);
+		addedReview.add("id", id).add("bid", bid).add("rtitle", rTitle).add("lname", lName).add("fname", fName).add("rating", rating).add("message", message);
 		JsonObjectBuilder resultObj = Json.createObjectBuilder().add("addedReview", addedReview);
+		return resultObj.build().toString();
+	}
+	
+	public void delReview(int id) throws SQLException {
+		reviewDAO.delReview(id);
+	}
+	
+	public String addAddress(String street, String province, String country, String zip, String phone) throws SQLException {
+		int id = addressDAO.addAddress(street, province, country, zip, phone);
+		
+		JsonObjectBuilder addedAddress = Json.createObjectBuilder();
+		addedAddress.add("id", id).add("street", street).add("province", province).add("country", country).add("zip", zip).add("phone", phone);
+		JsonObjectBuilder resultObj = Json.createObjectBuilder().add("addedAddress", addedAddress);
+		return resultObj.build().toString();
+	}
+	
+	public String addPurchaseOrder(String lname, String fname, String status, int a_id) throws SQLException {
+		int id = purchaseOrderDAO.addPurchaseOrder(lname, fname, status, a_id);
+		
+		JsonObjectBuilder addedPurchaseOrder = Json.createObjectBuilder();
+		addedPurchaseOrder.add("id", id).add("lname", lname).add("fname", fname).add("status", status).add("address_id", a_id);
+		JsonObjectBuilder resultObj = Json.createObjectBuilder().add("addedPurchaseOrder", addedPurchaseOrder);
 		return resultObj.build().toString();
 	}
 	
