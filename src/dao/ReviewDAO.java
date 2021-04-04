@@ -32,9 +32,12 @@ public class ReviewDAO {
 		while(r.next()) {
 			int id = r.getInt("ID");
 			String bid = r.getString("BID");
+			String rTitle = r.getString("RTITLE");
+			String lName = r.getString("LNAME");
+			String fName = r.getString("FNAME");
 			int rating = r.getInt("RATING");
 			String message = r.getString("MESSAGE");
-			ReviewBean review = new ReviewBean(id, bid, rating, message);
+			ReviewBean review = new ReviewBean(id, bid, rTitle, lName, fName, rating, message);
 			result.add(review);
 		}
 		r.close();
@@ -52,11 +55,14 @@ public class ReviewDAO {
 		ResultSet r = stmt.executeQuery();
 		ArrayList<ReviewBean> result = new ArrayList<ReviewBean>();
 		while(r.next()) {
-            int id = r.getInt("ID");
+			int id = r.getInt("ID");
 			String bid = r.getString("BID");
-            int rating = r.getInt("RATING");
-            String message = r.getString("MESSAGE");
-            ReviewBean review = new ReviewBean(id, bid, rating, message);
+			String rTitle = r.getString("RTITLE");
+			String lName = r.getString("LNAME");
+			String fName = r.getString("FNAME");
+			int rating = r.getInt("RATING");
+			String message = r.getString("MESSAGE");
+			ReviewBean review = new ReviewBean(id, bid, rTitle, lName, fName, rating, message);
 			result.add(review);
 		}
 		r.close();
@@ -77,10 +83,31 @@ public class ReviewDAO {
 			sum += r.getInt("RATING");
 			size++;
 		}
+		r.close();
+		stmt.close();
+		con.close();
+		
 		double avg = (double) (sum / size);
 		// Single decimal place rounding
 		double res = Math.round(avg * 10.0) / 10.0;
 		return res;
+	}
+	
+	public void addReview(String bid, String rTitle, String lName, String fName, int rating, String message) throws SQLException {
+		String query = "INSERT INTO prodreviews values(?,?,?,?,?,?)";
+		Connection con = this.ds.getConnection();
+		PreparedStatement stmt = con.prepareStatement(query);
+		
+		stmt.setString(1, bid);
+		stmt.setString(2, rTitle);
+		stmt.setString(3, lName);
+		stmt.setString(4, fName);
+		stmt.setInt(5, rating);
+		stmt.setString(6, message);
+		
+		stmt.executeUpdate();
+		stmt.close();
+		con.close();
 	}
 	
 }
