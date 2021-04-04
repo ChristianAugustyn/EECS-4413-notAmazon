@@ -93,22 +93,21 @@ public class ReviewDAO {
 		return res;
 	}
 	
-// 	is currently broken
-// 	public void addReview(String bid, String rTitle, String lName, String fName, int rating, String message) throws SQLException {
-// 		String query = "INSERT INTO prodreviews values(?,?,?,?,?,?)";
-// 		Connection con = this.ds.getConnection();
-// 		PreparedStatement stmt = con.prepareStatement(query);
+	public void addReview(String bid, String rTitle, String lName, String fName, int rating, String message) throws SQLException {
+		String query = "INSERT INTO prodreviews (bid, rtitle, lname, fname, rating, message) values(?,?,?,?,?,?)";
+		Connection con = this.ds.getConnection();
+		PreparedStatement stmt = con.prepareStatement(query);
 		
-// 		stmt.setString(1, bid);
-// 		stmt.setString(2, rTitle);
-// 		stmt.setString(3, lName);
-// 		stmt.setString(4, fName);
-// 		stmt.setInt(5, rating);
-// 		stmt.setString(6, message);
+		stmt.setString(1, bid);
+		stmt.setString(2, rTitle);
+		stmt.setString(3, lName);
+		stmt.setString(4, fName);
+		stmt.setInt(5, rating);
+		stmt.setString(6, message);
 		
-// 		stmt.executeUpdate();
-// 		stmt.close();
-// 		con.close();
-// 	}
+		stmt.executeUpdate();
+		stmt.close();
+		con.close();
+	}
 	
 }
