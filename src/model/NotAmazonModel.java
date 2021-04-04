@@ -97,6 +97,16 @@ public class NotAmazonModel {
 		return jsonResult.toString();
 	}
 	
+	public String getCategories() throws SQLException {
+        ArrayList<String> dbResult = bookDAO.getCategories();
+        JsonArrayBuilder categories = Json.createArrayBuilder();
+        for (String c: dbResult) {
+            categories.add(c);
+        }
+        JsonObjectBuilder resultObject = Json.createObjectBuilder().add("categories", categories);
+        return resultObject.build().toString();
+    }
+	
 	public String getAllReviews() throws SQLException {
 		ArrayList<ReviewBean> dbResult = reviewDAO.getAllReviews();
 		

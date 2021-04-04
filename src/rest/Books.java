@@ -62,5 +62,13 @@ public class Books {
 		return book;
 	}
 	
+	@GET
+    @Path("/categories")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getCatgories() throws ClassNotFoundException, SQLException {
+        String categories = NotAmazonModel.getInstance().getCategories();
+        return categories;
+    }
+	
 
 }
