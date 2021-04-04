@@ -3,6 +3,7 @@ package rest;
 import java.sql.SQLException;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -59,6 +60,13 @@ public class Reviews {
 		String review = NotAmazonModel.getInstance().addReview(bid, rTitle, lName, fName, rating, message);
 		
 		return review;
+	}
+	
+	@DELETE
+	@Path("/delReview/")
+	@Produces("text/plain")
+	public void delReview(@QueryParam("id") int id) throws ClassNotFoundException, SQLException {
+		NotAmazonModel.getInstance().delReview(id);
 	}
 	
 }
