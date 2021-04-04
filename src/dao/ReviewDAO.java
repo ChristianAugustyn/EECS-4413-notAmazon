@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import javax.naming.InitialContext;
@@ -93,10 +94,10 @@ public class ReviewDAO {
 		return res;
 	}
 	
-	public void addReview(String bid, String rTitle, String lName, String fName, int rating, String message) throws SQLException {
+	public int addReview(String bid, String rTitle, String lName, String fName, int rating, String message) throws SQLException {
 		String query = "INSERT INTO prodreviews (bid, rtitle, lname, fname, rating, message) values(?,?,?,?,?,?)";
 		Connection con = this.ds.getConnection();
-		PreparedStatement stmt = con.prepareStatement(query);
+		PreparedStatement stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 		
 		stmt.setString(1, bid);
 		stmt.setString(2, rTitle);
@@ -106,6 +107,27 @@ public class ReviewDAO {
 		stmt.setString(6, message);
 		
 		stmt.executeUpdate();
+		ResultSet r = stmt.getGeneratedKeys();
+		// either of the following work
+		int key = -1;
+		while(r.next()) {
+			key = r.getInt(1);
+		}
+//		int key = r.next() ? r.getInt(1) : -1;
+		
+		r.close();
+		stmt.close();
+		con.close();
+		return key;
+	}
+	
+	public void delReview(int id) throws SQLException {
+		String query = "DELETE FROM prodreviews WHERE id = ?";
+		Connection con = this.ds.getConnection();
+		PreparedStatement stmt = con.prepareStatement(query);
+		stmt.setInt(1, id);
+		stmt.executeUpdate();
+//		System.out.println("Deleted");
 		stmt.close();
 		con.close();
 	}
