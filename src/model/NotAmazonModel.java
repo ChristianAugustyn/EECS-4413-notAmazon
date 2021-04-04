@@ -128,15 +128,16 @@ public class NotAmazonModel {
 		return resultObj.build().toString();
 	}
 	
-	// might want to do this in way that also gives review id
-	public String addReview(String bid, String rTitle, String lName, String fName, int rating, String message) throws SQLException {
-		reviewDAO.addReview(bid, rTitle, lName, fName, rating, message);
+// 	is currently broken
+// 	might want to do this in way that also gives review id
+// 	public String addReview(String bid, String rTitle, String lName, String fName, int rating, String message) throws SQLException {
+// 		reviewDAO.addReview(bid, rTitle, lName, fName, rating, message);
 		
-		JsonObjectBuilder addedReview = Json.createObjectBuilder();
-		addedReview.add("bid", bid).add("rtitle", rTitle).add("lname", lName).add("fname", fName).add("rating", rating).add("message", message);
-		JsonObjectBuilder resultObj = Json.createObjectBuilder().add("addedReview", addedReview);
-		return resultObj.build().toString();
-	}
+// 		JsonObjectBuilder addedReview = Json.createObjectBuilder();
+// 		addedReview.add("bid", bid).add("rtitle", rTitle).add("lname", lName).add("fname", fName).add("rating", rating).add("message", message);
+// 		JsonObjectBuilder resultObj = Json.createObjectBuilder().add("addedReview", addedReview);
+// 		return resultObj.build().toString();
+// 	}
 	
 	public int insertTest(int id, String message) throws SQLException {
 		return testDAO.insertToTest(id, message);
