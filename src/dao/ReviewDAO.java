@@ -88,7 +88,7 @@ public class ReviewDAO {
 		stmt.close();
 		con.close();
 		
-		double avg = (double) (sum / size);
+		double avg = (sum / (double)size);
 		// Single decimal place rounding
 		double res = Math.round(avg * 10.0) / 10.0;
 		return res;
