@@ -32,12 +32,16 @@ public class AddressDAO {
 		ArrayList<AddressBean> result = new ArrayList<AddressBean>();
 		while(r.next()) {
 			int id = r.getInt("ID");
+			String lname = r.getString("LNAME");
+			String fname = r.getString("FNAME");
 			String street = r.getString("STREET");
+			String city = r.getString("CITY");
 			String province = r.getString("PROVINCE");
 			String country = r.getString("COUNTRY");
 			String zip = r.getString("ZIP");
 			String phone = r.getString("PHONE");
-			AddressBean address = new AddressBean(id, street, province, country, zip, phone);
+			String addressType = r.getString("ADDRESSTYPE");
+			AddressBean address = new AddressBean(id, lname, fname, street, city, province, country, zip, phone, addressType);
 			result.add(address);
 		}
 		r.close();
@@ -55,12 +59,16 @@ public class AddressDAO {
 		ArrayList<AddressBean> result = new ArrayList<AddressBean>();
 		while(r.next()) {
 			int a_id = r.getInt("ID");
+			String lname = r.getString("LNAME");
+			String fname = r.getString("FNAME");
 			String street = r.getString("STREET");
+			String city = r.getString("CITY");
 			String province = r.getString("PROVINCE");
 			String country = r.getString("COUNTRY");
 			String zip = r.getString("ZIP");
 			String phone = r.getString("PHONE");
-			AddressBean address = new AddressBean(a_id, street, province, country, zip, phone);
+			String addressType = r.getString("ADDRESSTYPE");
+			AddressBean address = new AddressBean(a_id, lname, fname, street, city, province, country, zip, phone, addressType);
 			result.add(address);
 		}
 		r.close();
@@ -69,16 +77,21 @@ public class AddressDAO {
 		return result;
 	}
 	
-	public int addAddress(String street, String province, String country, String zip, String phone) throws SQLException {
-		String query = "INSERT INTO address (street, province, country, zip, phone) values(?,?,?,?,?)";
+	public int addAddress(String lname, String fname, String street, String city, String province,
+			String country, String zip, String phone, String addressType) throws SQLException {
+		String query = "INSERT INTO address (lname, fname, street, city, province, country, zip, phone, addressType) values(?,?,?,?,?,?,?,?,?)";
 		Connection con = this.ds.getConnection();
 		PreparedStatement stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 		
-		stmt.setString(1, street);
-		stmt.setString(2, province);
-		stmt.setString(3, country);
-		stmt.setString(4, zip);
-		stmt.setString(5, phone);
+		stmt.setString(1, lname);
+		stmt.setString(2, fname);
+		stmt.setString(3, street);
+		stmt.setString(4, city);
+		stmt.setString(5, province);
+		stmt.setString(6, country);
+		stmt.setString(7, zip);
+		stmt.setString(8, phone);
+		stmt.setString(9, addressType);
 		
 		stmt.executeUpdate();
 		ResultSet r = stmt.getGeneratedKeys();

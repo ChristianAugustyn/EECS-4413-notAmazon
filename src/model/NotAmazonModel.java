@@ -41,7 +41,10 @@ public class NotAmazonModel {
 		JsonArrayBuilder books = Json.createArrayBuilder();
 		for (BookBean book: dbResult) {
 			JsonObjectBuilder jsonBook = Json.createObjectBuilder();
-			jsonBook.add("bid", book.getBid()).add("title", book.getTitle()).add("price", book.getPrice()).add("category", book.getCategory());
+			jsonBook.add("bid", book.getBid())
+					.add("title", book.getTitle())
+					.add("price", book.getPrice())
+					.add("category", book.getCategory());
 			books.add(jsonBook);
 		}
 		JsonObjectBuilder resultObject = Json.createObjectBuilder().add("allBooks", books);
@@ -55,7 +58,10 @@ public class NotAmazonModel {
 		JsonArrayBuilder books = Json.createArrayBuilder();
 		for (BookBean book: dbResult) {
 			JsonObjectBuilder jsonBook = Json.createObjectBuilder();
-			jsonBook.add("bid", book.getBid()).add("title", book.getTitle()).add("price", book.getPrice()).add("category", book.getCategory());
+			jsonBook.add("bid", book.getBid())
+					.add("title", book.getTitle())
+					.add("price", book.getPrice())
+					.add("category", book.getCategory());
 			books.add(jsonBook);
 		}
 		JsonObjectBuilder resultObject = Json.createObjectBuilder().add("allBooks", books);
@@ -77,7 +83,10 @@ public class NotAmazonModel {
 		BookBean b = dbResult.get(0); 
 		
 		JsonObjectBuilder book = Json.createObjectBuilder();
-		book.add("bid", b.getBid()).add("title", b.getTitle()).add("price", b.getPrice()).add("category", b.getCategory());
+		book.add("bid", b.getBid())
+				.add("title", b.getTitle())
+				.add("price", b.getPrice())
+				.add("category", b.getCategory());
 		
 		JsonObjectBuilder resultObj = Json.createObjectBuilder().add("book", book);
 		
@@ -91,7 +100,10 @@ public class NotAmazonModel {
 		JsonArrayBuilder books = Json.createArrayBuilder();
 		for (BookBean book: dbResult) {
 			JsonObjectBuilder jsonBook = Json.createObjectBuilder();
-			jsonBook.add("bid", book.getBid()).add("title", book.getTitle()).add("price", book.getPrice()).add("category", book.getCategory());
+			jsonBook.add("bid", book.getBid())
+					.add("title", book.getTitle())
+					.add("price", book.getPrice())
+					.add("category", book.getCategory());
 			books.add(jsonBook);
 		}
 		JsonObjectBuilder resultObject = Json.createObjectBuilder().add("allBooks", books);
@@ -115,7 +127,13 @@ public class NotAmazonModel {
 		JsonArrayBuilder reviews = Json.createArrayBuilder();
 		for (ReviewBean review: dbResult) {
 			JsonObjectBuilder jsonReview = Json.createObjectBuilder();
-			jsonReview.add("id", review.getId()).add("bid", review.getBid()).add("rtitle", review.getRTitle()).add("lname", review.getLName()).add("fname", review.getFName()).add("rating", review.getRating()).add("message", review.getMessage());
+			jsonReview.add("id", review.getId())
+					.add("bid", review.getBid())
+					.add("rtitle", review.getRTitle())
+					.add("lname", review.getLName())
+					.add("fname", review.getFName())
+					.add("rating", review.getRating())
+					.add("message", review.getMessage());
 			reviews.add(jsonReview);
 		}
 		JsonObjectBuilder resultObject = Json.createObjectBuilder().add("allReviews", reviews);
@@ -133,7 +151,13 @@ public class NotAmazonModel {
 		JsonArrayBuilder reviews = Json.createArrayBuilder();
 		for (ReviewBean review: dbResult) {
 			JsonObjectBuilder jsonReview = Json.createObjectBuilder();
-			jsonReview.add("id", review.getId()).add("bid", review.getBid()).add("rtitle", review.getRTitle()).add("lname", review.getLName()).add("fname", review.getFName()).add("rating", review.getRating()).add("message", review.getMessage());
+			jsonReview.add("id", review.getId())
+					.add("bid", review.getBid())
+					.add("rtitle", review.getRTitle())
+					.add("lname", review.getLName())
+					.add("fname", review.getFName())
+					.add("rating", review.getRating())
+					.add("message", review.getMessage());
 			reviews.add(jsonReview);
 		}
 		JsonObjectBuilder resultObject = Json.createObjectBuilder().add("allReviews", reviews);
@@ -148,11 +172,18 @@ public class NotAmazonModel {
 		return resultObj.build().toString();
 	}
 	
-	public String addReview(String bid, String rTitle, String lName, String fName, int rating, String message) throws SQLException {
+	public String addReview(String bid, String rTitle, String lName, String fName, int rating,
+			String message) throws SQLException {
 		int id = reviewDAO.addReview(bid, rTitle, lName, fName, rating, message);
 		
 		JsonObjectBuilder addedReview = Json.createObjectBuilder();
-		addedReview.add("id", id).add("bid", bid).add("rtitle", rTitle).add("lname", lName).add("fname", fName).add("rating", rating).add("message", message);
+		addedReview.add("id", id)
+				.add("bid", bid)
+				.add("rtitle", rTitle)
+				.add("lname", lName)
+				.add("fname", fName)
+				.add("rating", rating)
+				.add("message", message);
 		JsonObjectBuilder resultObj = Json.createObjectBuilder().add("addedReview", addedReview);
 		return resultObj.build().toString();
 	}
@@ -161,11 +192,21 @@ public class NotAmazonModel {
 		reviewDAO.delReview(id);
 	}
 	
-	public String addAddress(String street, String province, String country, String zip, String phone) throws SQLException {
-		int id = addressDAO.addAddress(street, province, country, zip, phone);
+	public String addAddress(String lname, String fname, String street, String city, String province,
+			String country, String zip, String phone, String addressType) throws SQLException {
+		int id = addressDAO.addAddress(lname, fname, street, city, province, country, zip, phone, addressType);
 		
 		JsonObjectBuilder addedAddress = Json.createObjectBuilder();
-		addedAddress.add("id", id).add("street", street).add("province", province).add("country", country).add("zip", zip).add("phone", phone);
+		addedAddress.add("id", id)
+				.add("lname", lname)
+				.add("fname", fname)
+				.add("street", street)
+				.add("city", city)
+				.add("province", province)
+				.add("country", country)
+				.add("zip", zip)
+				.add("phone", phone)
+				.add("addressType", addressType);
 		JsonObjectBuilder resultObj = Json.createObjectBuilder().add("addedAddress", addedAddress);
 		return resultObj.build().toString();
 	}
@@ -174,7 +215,11 @@ public class NotAmazonModel {
 		int id = purchaseOrderDAO.addPurchaseOrder(lname, fname, status, a_id);
 		
 		JsonObjectBuilder addedPurchaseOrder = Json.createObjectBuilder();
-		addedPurchaseOrder.add("id", id).add("lname", lname).add("fname", fname).add("status", status).add("address_id", a_id);
+		addedPurchaseOrder.add("id", id)
+			.add("lname", lname)
+			.add("fname", fname)
+			.add("status", status)
+			.add("address_id", a_id);
 		JsonObjectBuilder resultObj = Json.createObjectBuilder().add("addedPurchaseOrder", addedPurchaseOrder);
 		return resultObj.build().toString();
 	}
