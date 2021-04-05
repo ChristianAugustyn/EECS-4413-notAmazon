@@ -6,6 +6,7 @@ import javax.json.JsonObject;
 import javax.print.attribute.standard.Media;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -78,6 +79,8 @@ public class Books {
 			
 			
 			return Response.ok(book, MediaType.APPLICATION_JSON).build();
+		} catch (NotFoundException e) {
+			return Response.status(404).entity(e.getMessage()).build();
 		} catch (Exception e) {
 			return Response.status(400).entity(e.getMessage()).build();
 		}

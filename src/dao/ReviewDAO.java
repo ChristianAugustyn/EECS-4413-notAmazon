@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import javax.ws.rs.NotFoundException;
 
 import bean.ReviewBean;
 
@@ -72,7 +73,7 @@ public class ReviewDAO {
 		return result;
 	}
 	
-	public double getAverageRatingByBookId(String bookId) throws SQLException {
+	public double getAverageRatingByBookId(String bookId) throws SQLException, NotFoundException {
 		String query = "SELECT rating FROM prodreviews WHERE bid = ?";
 		Connection con = this.ds.getConnection();
 		PreparedStatement stmt = con.prepareStatement(query);
@@ -83,6 +84,9 @@ public class ReviewDAO {
 		while(r.next()) {
 			sum += r.getInt("RATING");
 			size++;
+		}
+		if(size == 0) {
+			throw new NotFoundException("No reviews");
 		}
 		r.close();
 		stmt.close();

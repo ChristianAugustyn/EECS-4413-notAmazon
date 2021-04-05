@@ -7,6 +7,7 @@ import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+import javax.ws.rs.NotFoundException;
 
 import bean.*;
 import dao.*;
@@ -66,7 +67,7 @@ public class NotAmazonModel {
 		ArrayList<BookBean> dbResult = bookDAO.getBookByID(id);
 		
 		if (dbResult.size() == 0) {
-			throw new SQLException("Book with id: " + id +" , does not exist");
+			throw new NotFoundException("Book with id: " + id +" , does not exist");
 //			String errorMessage = String.format("Book with id: %s , does not exist", id);
 //			JsonObjectBuilder error = Json.createObjectBuilder().add("error", errorMessage);
 //			
@@ -122,8 +123,12 @@ public class NotAmazonModel {
 		return jsonResult.toString();
 	}
 	
-	public String getReviewsByBook(String bookId) throws SQLException {
+	public String getReviewsByBook(String bookId) throws SQLException, NotFoundException {
 		ArrayList<ReviewBean> dbResult = reviewDAO.getReviewsByBook(bookId);
+		
+		if(dbResult.isEmpty()) {
+			throw new NotFoundException("No reviews exist");
+		}
 		
 		JsonArrayBuilder reviews = Json.createArrayBuilder();
 		for (ReviewBean review: dbResult) {
@@ -136,7 +141,7 @@ public class NotAmazonModel {
 		return jsonResult.toString();
 	}
 	
-	public String getAverageRatingByBookId(String bookId) throws SQLException {
+	public String getAverageRatingByBookId(String bookId) throws SQLException, NotFoundException {
 		JsonObjectBuilder avgRating = Json.createObjectBuilder();
 		avgRating.add("bid", bookId).add("avgRating", reviewDAO.getAverageRatingByBookId(bookId));
 		JsonObjectBuilder resultObj = Json.createObjectBuilder().add("averageRating", avgRating);
