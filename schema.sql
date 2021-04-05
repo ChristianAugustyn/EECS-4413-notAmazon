@@ -36,12 +36,20 @@ INSERT INTO Book (bid, title, price, category) values
 
 CREATE TABLE Address (
     id          INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    street      VARCHAR(100) NOT NULL,
-    province    VARCHAR(20) NOT NULL,
-    country     VARCHAR(20) NOT NULL,
+    lname       VARCHAR(60) NOT NULL,
+    fname       VARCHAR(60) NOT NULL,
+    street      VARCHAR(105) NOT NULL,
+    city        VARCHAR(105) NOT NULL,
+    province    VARCHAR(105) NOT NULL,
+    country     VARCHAR(57) NOT NULL,
     zip         VARCHAR(20) NOT NULL,
     phone       VARCHAR(20),
-    PRIMARY KEY(id)
+    addressType VARCHAR(8) NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT addressType_check CHECK
+        (
+            addressType in ('BILLING', 'SHIPPING', 'BOTH')
+        )
 );
 
 CREATE TABLE PO (
