@@ -16,7 +16,6 @@ import javax.ws.rs.core.Response;
 
 import org.json.JSONObject;
 
-import authenticate.Secured;
 import model.NotAmazonModel;
 
 @Path("/auth")
@@ -61,9 +60,9 @@ public class Auth {
 	
 	@GET
 	@Secured
-    @Path("/private")
+    @Path("/secret")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getCatgories() {
+    public Response secret() {
 		return Response.ok("you are logged in", MediaType.APPLICATION_JSON).build();
     }
 	
