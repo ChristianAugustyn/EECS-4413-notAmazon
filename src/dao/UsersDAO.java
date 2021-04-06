@@ -22,9 +22,8 @@ public class UsersDAO {
 		}
 	}
 	
-	public void addUser(String userId, String userpw, String lname, String fname, int shipping, int billing,
-			String token) throws SQLException {
-		String query = "INSERT INTO users (userid, userpw, lname, fname, shipping, billing, token) values()";
+	public void addUser(String userId, String userpw, String lname, String fname, int shipping, int billing) throws SQLException {
+		String query = "INSERT INTO users (userid, userpw, lname, fname, shipping, billing) values(?,?,?,?,?,?)";
 		Connection con = this.ds.getConnection();
 		PreparedStatement stmt = con.prepareStatement(query);
 		
@@ -34,7 +33,6 @@ public class UsersDAO {
 		stmt.setString(4, fname);
 		stmt.setInt(5, shipping);
 		stmt.setInt(6, billing);
-		stmt.setString(7, token);
 		
 		stmt.executeUpdate();
 		stmt.close();

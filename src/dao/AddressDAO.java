@@ -78,8 +78,8 @@ public class AddressDAO {
 	}
 	
 	public int addAddress(String lname, String fname, String street, String city, String province,
-			String country, String zip, String phone, String addressType) throws SQLException {
-		String query = "INSERT INTO address (lname, fname, street, city, province, country, zip, phone, addressType) values(?,?,?,?,?,?,?,?,?)";
+			String country, String zip, String addressType) throws SQLException {
+		String query = "INSERT INTO address (lname, fname, street, city, province, country, zip, addressType) values(?,?,?,?,?,?,?,?)";
 		Connection con = this.ds.getConnection();
 		PreparedStatement stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 		
@@ -90,8 +90,7 @@ public class AddressDAO {
 		stmt.setString(5, province);
 		stmt.setString(6, country);
 		stmt.setString(7, zip);
-		stmt.setString(8, phone);
-		stmt.setString(9, addressType);
+		stmt.setString(8, addressType);
 		
 		stmt.executeUpdate();
 		ResultSet r = stmt.getGeneratedKeys();
