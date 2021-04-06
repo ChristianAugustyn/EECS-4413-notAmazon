@@ -224,6 +224,15 @@ public class NotAmazonModel {
 		return resultObj.build().toString();
 	}
 	
+	public void addUser(String userId, String userpw, String lname, String fname, int shipping, int billing,
+			String token) throws SQLException {
+		usersDAO.addUser(userId, userpw, lname, fname, shipping, billing, token);
+	}
+	
+	public void updateUserToken(String userid, String token) throws SQLException {
+		usersDAO.updateUserToken(userid, token);
+	}
+	
 	public int insertTest(int id, String message) throws SQLException {
 		return testDAO.insertToTest(id, message);
 	}

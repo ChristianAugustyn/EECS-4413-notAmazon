@@ -108,3 +108,16 @@ CREATE TABLE ProdReviews (
 INSERT INTO ProdReviews (bid, rtitle, lname, fname, rating, message) VALUES
     ('b001', 'Test Title 1', 'Gravel', 'James', 3, 'Test review book 1'),
     ('b002', 'Test Title 2', 'Gravel', 'James', 5, 'Test review book 2');
+
+CREATE TABLE Users (
+    userId   VARCHAR(320) NOT NULL,
+    userPw   VARCHAR(1000) NOT NULL,
+    lname    VARCHAR(60) NOT NULL,
+    fname    VARCHAR(60) NOT NULL,
+    shipping INT NOT NULL,
+    billing  INT NOT NULL,
+    token    VARCHAR(26) NOT NULL,
+    PRIMARY KEY(userId),
+    FOREIGN KEY(shipping) REFERENCES Address(id),
+    FOREIGN KEY(billing) REFERENCES Address(id)
+);
