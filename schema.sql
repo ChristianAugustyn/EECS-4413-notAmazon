@@ -116,8 +116,17 @@ CREATE TABLE Users (
     fname    VARCHAR(60) NOT NULL,
     shipping INT NOT NULL,
     billing  INT NOT NULL,
-    token    VARCHAR(26) NOT NULL,
+    token    VARCHAR(26),
     PRIMARY KEY(userId),
     FOREIGN KEY(shipping) REFERENCES Address(id),
     FOREIGN KEY(billing) REFERENCES Address(id)
 );
+
+insert into ADDRESS (lname, fname, street, city, province, country, zip, phone, addressType) values
+    ('smith', 'john', '123 Street', 'myCity', 'myProv', 'myCountry', '123456', '123456789', 'BILLING'),
+    ('Ford', 'Henry', '321 Street', 'Toronto', 'Ontario', 'Canada', '654321', '9055456212', 'BOTH');
+    
+insert into USERS (USERID, USERPW, LNAME, FNAME, SHIPPING, BILLING) values
+	('johnSmith', 'myPassword', 'Smith', 'John', 2, 2);
+    
+    
