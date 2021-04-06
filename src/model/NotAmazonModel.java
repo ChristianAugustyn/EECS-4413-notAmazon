@@ -19,6 +19,7 @@ public class NotAmazonModel {
 	ReviewDAO reviewDAO;
 	AddressDAO addressDAO;
 	PurchaseOrderDAO purchaseOrderDAO;
+	UsersDAO usersDAO;
 	
 	private NotAmazonModel() {
 	}
@@ -31,6 +32,7 @@ public class NotAmazonModel {
 			instance.reviewDAO = new ReviewDAO();
 			instance.addressDAO = new AddressDAO();
 			instance.purchaseOrderDAO = new PurchaseOrderDAO();
+			instance.usersDAO = new UsersDAO();
 		}
 		return instance;
 	}
@@ -231,6 +233,19 @@ public class NotAmazonModel {
 	
 	public void updateUserToken(String userid, String token) throws SQLException {
 		usersDAO.updateUserToken(userid, token);
+	}
+	
+	public boolean checkPassword(String userid, String password) throws SQLException {
+		UsersBean user = usersDAO.getUser(userid);
+		if(user.getUserPw().equals(password)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean checkToken(String token) throws SQLException {
+		return usersDAO.isValidToken(token);
 	}
 	
 	public int insertTest(int id, String message) throws SQLException {

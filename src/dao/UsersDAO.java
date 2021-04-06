@@ -9,6 +9,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import bean.UsersBean;
+
 public class UsersDAO {
 	DataSource ds;
 	
@@ -39,13 +41,35 @@ public class UsersDAO {
 		con.close();
 	}
 	
+	public UsersBean getUser(String id) throws SQLException{
+		String query = "SELECT * FROM users WHERE userid = ?";
+		Connection con = this.ds.getConnection();
+		PreparedStatement stmt = con.prepareStatement(query);
+		stmt.setString(1, id);
+		ResultSet r = stmt.executeQuery();
+		r.next();
+		String userId = r.getString("userid");
+		String userPw = r.getString("userPw");
+		String lname = r.getString("lname");
+		String fname = r.getString("fname");
+		int shipping = r.getInt("shipping");
+		int billing = r.getInt("billing");
+		String token = r.getString("token");
+		UsersBean user = new UsersBean(userId, userPw, lname, fname, shipping, billing, token);
+		stmt.close();
+		con.close();
+		return user;
+		
+		
+	}
+	
 	public boolean isValidToken(String token) throws SQLException {
 		String query = "SELECT token FROM users WHERE token = ?";
 		Connection con = this.ds.getConnection();
 		PreparedStatement stmt = con.prepareStatement(query);
 		stmt.setString(1, token);
 		ResultSet r = stmt.executeQuery();
-		if(r.isBeforeFirst()) {
+		if(r.next()) {
 			r.close();
 			stmt.close();
 			con.close();
@@ -56,6 +80,19 @@ public class UsersDAO {
 			con.close();
 			return false;
 		}
+		
+		
+//		if(r.isBeforeFirst()) {
+//			r.close();
+//			stmt.close();
+//			con.close();
+//			return true;
+//		} else {
+//			r.close();
+//			stmt.close();
+//			con.close();
+//			return false;
+//		}
 	}
 	
 	public void updateUserToken(String userid, String token) throws SQLException {
@@ -65,10 +102,10 @@ public class UsersDAO {
 		
 		stmt.setString(1, token);
 		stmt.setString(2, userid);
-		
 		stmt.executeUpdate();
 		stmt.close();
 		con.close();
 	}
+	
 	
 }
