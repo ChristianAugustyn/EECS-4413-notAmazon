@@ -25,11 +25,11 @@ public class AdminDAO {
 	}
 	
 	public ArrayList<TopTenBean> getTopTen() throws SQLException {
-		String query = "SELECT book.bid as bid, book.title as title, COUNT(poitem.bid) as count ";
-		query.concat("FROM book, poitem ");
-		query.concat("WHERE book.bid = poitem.bid ");
-		query.concat("GROUP BY book.bid, book.title, poitem.bid ");
-		query.concat("ORDER BY COUNT(poitem.bid) DESC FETCH FIRST 10 ROWS ONLY");
+		String query = "SELECT book.bid as bid, book.title as title, COUNT(poitem.bid) as count FROM book, poitem WHERE book.bid = poitem.bid GROUP BY book.bid, book.title, poitem.bid ORDER BY COUNT(poitem.bid) DESC FETCH FIRST 10 ROWS ONLY";
+//		query.concat("FROM book, poitem ");
+//		query.concat("WHERE book.bid = poitem.bid ");
+//		query.concat("GROUP BY book.bid, book.title, poitem.bid ");
+//		query.concat("ORDER BY COUNT(poitem.bid) DESC FETCH FIRST 10 ROWS ONLY");
 		Connection con = this.ds.getConnection();
 		PreparedStatement stmt = con.prepareStatement(query);
 		ResultSet r = stmt.executeQuery();
@@ -48,10 +48,10 @@ public class AdminDAO {
 	}
 	
 	public ArrayList<SpentZipBean> getAllSpentAndZipForUsers() throws SQLException {
-		String query = "SELECT users.userid as uid, sum(poitem.price) as total, address.zip as zip ";
-		query.concat("FROM po, poitem, users, address ");
-		query.concat("WHERE poitem.id = po.id AND po.userid = users.userid AND users.billing = address.zip ");
-		query.concat("GROUP BY users.uiserid, address.zip");
+		String query = "SELECT users.userid as uid, sum(poitem.price) as total, address.zip as zip FROM po, poitem, users, address WHERE poitem.id = po.id AND po.userid = users.userid AND users.billing = address.zip GROUP BY users.uiserid, address.zip";
+//		query.concat("FROM po, poitem, users, address ");
+//		query.concat("WHERE poitem.id = po.id AND po.userid = users.userid AND users.billing = address.zip ");
+//		query.concat("GROUP BY users.uiserid, address.zip");
 		Connection con = this.ds.getConnection();
 		PreparedStatement stmt = con.prepareStatement(query);
 		ResultSet r = stmt.executeQuery();
