@@ -54,6 +54,7 @@ public class UsersDAO {
 		int billing = r.getInt("billing");
 		String token = r.getString("token");
 		UsersBean user = new UsersBean(userId, userPw, lname, fname, shipping, billing, token);
+		r.close();
 		stmt.close();
 		con.close();
 		return user;
@@ -103,6 +104,20 @@ public class UsersDAO {
 		stmt.executeUpdate();
 		stmt.close();
 		con.close();
+	}
+	
+	public String getUserIdByToken(String token) throws SQLException {
+		String query = "SELECT userid FROM users WHERE token = ?";
+		Connection con = this.ds.getConnection();
+		PreparedStatement stmt = con.prepareStatement(query);
+		stmt.setString(1, token);
+		ResultSet r = stmt.executeQuery();
+		r.next();
+		String result = r.getString("userid");
+		r.close();
+		stmt.close();
+		con.close();
+		return result;
 	}
 	
 	

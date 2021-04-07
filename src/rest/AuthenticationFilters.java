@@ -27,7 +27,25 @@ public class AuthenticationFilters implements ContainerRequestFilter {
 
         // Get the Authorization header from the request
         String authorizationHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
-
+        
+        if(authorizationHeader == null) {
+			requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).entity("You cannot access this resource").build());
+        } else {
+        	String token = authorizationHeader.substring(AUTHENTICATION_SCHEME.length()).trim();
+        	try {
+    			if(!(NotAmazonModel.getInstance().checkToken(token))) {
+    				requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).entity("You cannot access this resource").build());
+    			}
+    		} catch (ClassNotFoundException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    			requestContext.abortWith(Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
+    		} catch (SQLException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    			requestContext.abortWith(Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
+    		}
+        }
         // Validate the Authorization header
 //        if (!isTokenBasedAuthentication(authorizationHeader)) {
 //            abortWithUnauthorized(requestContext);
@@ -35,23 +53,11 @@ public class AuthenticationFilters implements ContainerRequestFilter {
 //        }
 
         // Extract the token from the Authorization header
-        String token = authorizationHeader.substring(AUTHENTICATION_SCHEME.length()).trim();
+        
         
         //check if token is in users DB
         
-        try {
-			if(!(NotAmazonModel.getInstance().checkToken(token))) {
-				requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).entity("You cannot access this resource").build());
-			}
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			requestContext.abortWith(Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			requestContext.abortWith(Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
-		}
+        
     }
 
 }

@@ -1,3 +1,34 @@
+CREATE TABLE Address (
+    id          INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+    lname       VARCHAR(60) NOT NULL,
+    fname       VARCHAR(60) NOT NULL,
+    street      VARCHAR(105) NOT NULL,
+    city        VARCHAR(105) NOT NULL,
+    province    VARCHAR(105) NOT NULL,
+    country     VARCHAR(57) NOT NULL,
+    zip         VARCHAR(20) NOT NULL,
+    phone       VARCHAR(20),
+    addressType VARCHAR(8) NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT addressType_check CHECK
+        (
+            addressType in ('BILLING', 'SHIPPING', 'BOTH')
+        )
+);
+
+CREATE TABLE Users (
+    userId   VARCHAR(320) NOT NULL,
+    userPw   VARCHAR(1000) NOT NULL,
+    lname    VARCHAR(60) NOT NULL,
+    fname    VARCHAR(60) NOT NULL,
+    shipping INT NOT NULL,
+    billing  INT NOT NULL,
+    token    VARCHAR(26),
+    PRIMARY KEY(userId),
+    FOREIGN KEY(shipping) REFERENCES Address(id),
+    FOREIGN KEY(billing) REFERENCES Address(id)
+);
+
 CREATE TABLE Book (
     bid         VARCHAR(20) NOT NULL,
     title       VARCHAR(75) NOT NULL,
@@ -35,30 +66,16 @@ INSERT INTO Book (bid, title, price, category, cover) values
     ('b019', 'The Yellow Wallpaper', 27.89, 'Psychological Fiction', 'http://covers.openlibrary.org/b/olid/OL27767475M-L.jpg'),
     ('b020', 'War and Peace', 13.81, 'Historical Fiction', 'http://covers.openlibrary.org/b/olid/OL28288911M-L.jpg');
 
-CREATE TABLE Address (
-    id          INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    lname       VARCHAR(60) NOT NULL,
-    fname       VARCHAR(60) NOT NULL,
-    street      VARCHAR(105) NOT NULL,
-    city        VARCHAR(105) NOT NULL,
-    province    VARCHAR(105) NOT NULL,
-    country     VARCHAR(57) NOT NULL,
-    zip         VARCHAR(20) NOT NULL,
-    phone       VARCHAR(20),
-    addressType VARCHAR(8) NOT NULL,
-    PRIMARY KEY(id),
-    CONSTRAINT addressType_check CHECK
-        (
-            addressType in ('BILLING', 'SHIPPING', 'BOTH')
-        )
-);
-
 CREATE TABLE PO (
     id         INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     userid     VARCHAR(320) NOT NULL,
     status     VARCHAR(10) NOT NULL,
+    billing INT NOT NULL,
+    shipping INT NOT NULL,
     PRIMARY KEY(id),
     FOREIGN KEY(userid) REFERENCES Users(userid),
+    FOREIGN KEY(billing) REFERENCES Address(id),
+    FOREIGN KEY(shipping) REFERENCES Address(id),
     CONSTRAINT status_check CHECK
         (
             status IN ('ORDERED','PROCESSED','DENIED')
@@ -66,12 +83,13 @@ CREATE TABLE PO (
 );
 
 CREATE TABLE POItem (
-    id      INT NOT NULL,
+    id      INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+    poid INT NOT NULL,
     bid     VARCHAR(20) NOT NULL,
     price   DECIMAL(4, 2) NOT NULL,
-    PRIMARY KEY(id,bid),
-    FOREIGN KEY(id) REFERENCES PO(id) ON DELETE CASCADE,
-    FOREIGN KEY(bid) REFERENCES Book(bid) ON DELETE CASCADE
+    PRIMARY KEY(id),
+    FOREIGN KEY(bid) REFERENCES Book(bid) ON DELETE CASCADE,
+    FOREIGN KEY(poid) REFERENCES PO(id) ON DELETE CASCADE
 );
 
 CREATE TABLE VisitEvent (
@@ -107,19 +125,6 @@ CREATE TABLE ProdReviews (
 INSERT INTO ProdReviews (bid, rtitle, lname, fname, rating, message) VALUES
     ('b001', 'Test Title 1', 'Gravel', 'James', 3, 'Test review book 1'),
     ('b002', 'Test Title 2', 'Gravel', 'James', 5, 'Test review book 2');
-
-CREATE TABLE Users (
-    userId   VARCHAR(320) NOT NULL,
-    userPw   VARCHAR(1000) NOT NULL,
-    lname    VARCHAR(60) NOT NULL,
-    fname    VARCHAR(60) NOT NULL,
-    shipping INT NOT NULL,
-    billing  INT NOT NULL,
-    token    VARCHAR(26),
-    PRIMARY KEY(userId),
-    FOREIGN KEY(shipping) REFERENCES Address(id),
-    FOREIGN KEY(billing) REFERENCES Address(id)
-);
 
 insert into ADDRESS (lname, fname, street, city, province, country, zip, phone, addressType) values
     ('smith', 'john', '123 Street', 'myCity', 'myProv', 'myCountry', '123456', '123456789', 'BILLING'),

@@ -34,7 +34,9 @@ public class PurchaseOrderDAO {
 			int po_id = r.getInt("ID");
 			String userId = r.getString("USERID");
 			String status = r.getString("STATUS");
-			PurchaseOrderBean purchaseOrder = new PurchaseOrderBean(po_id, userId, status);
+			int billing = r.getInt("billing");
+			int shipping = r.getInt("shipping");
+			PurchaseOrderBean purchaseOrder = new PurchaseOrderBean(po_id, userId, status, billing, shipping);
 			result.add(purchaseOrder);
 		}
 		r.close();
@@ -43,20 +45,20 @@ public class PurchaseOrderDAO {
 		return result;
 	}
 	
-	public int addPurchaseOrder(String userId, String status) throws SQLException {
-		String query = "INSERT INTO po (userid, status) values(?,?)";
+	public int addPurchaseOrder(String userId, String status, int billing, int shipping) throws SQLException {
+		String query = "INSERT INTO po (userid, status, billing, shipping) values(?,?,?,?)";
 		Connection con = this.ds.getConnection();
 		PreparedStatement stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 		
 		stmt.setString(1, userId);
 		stmt.setString(2, status);
+		stmt.setInt(3, billing);
+		stmt.setInt(4, shipping);
 		
 		stmt.executeUpdate();
 		ResultSet r = stmt.getGeneratedKeys();
-		int key = -1;
-		while(r.next()) {
-			key = r.getInt(1);
-		}
+		r.next();
+		int key = r.getInt(1);
 		r.close();
 		stmt.close();
 		con.close();

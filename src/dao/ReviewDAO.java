@@ -85,12 +85,13 @@ public class ReviewDAO {
 			sum += r.getInt("RATING");
 			size++;
 		}
-		if(size == 0) {
-			throw new NotFoundException("No reviews");
-		}
+		
 		r.close();
 		stmt.close();
 		con.close();
+		if(size == 0) {
+			return -1;
+		}
 		
 		double avg = (sum / (double)size);
 		// Single decimal place rounding
