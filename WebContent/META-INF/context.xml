@@ -5,8 +5,13 @@
 	<Resource name="jdbc/notAmazonDB"
 		factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
 		type="javax.sql.DataSource"
-		driverClassName="org.apache.derby.jdbc.EmbeddedDriver"
-		url="jdbc:derby:C:\Users\Ajeet\Documents\EECS4413\project\backend\EECS-4413-notAmazon\notAmazonDB" />
+		username="klm64779"
+		password="xfrh22qxfks+v2wl"
+		initialSize="1"
+		maxActive="5"
+		maxIdle="3"
+		driverClassName="com.ibm.db2.jcc.DB2Driver"
+		url="jdbc:db2://dashdb-txn-sbox-yp-dal09-12.services.dal.bluemix.net:50001/BLUDB:sslConnection=true;" />
 	<ResourceLink global="jdbc/notAmazonDB" name="jdbc/notAmazonDB"
 		type="javax.sql.DataSource" />
 </Context>
