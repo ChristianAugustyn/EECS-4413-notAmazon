@@ -48,7 +48,7 @@ public class AdminDAO {
 	}
 	
 	public ArrayList<SpentZipBean> getAllSpentAndZipForUsers() throws SQLException {
-		String query = "SELECT users.userid as uid, sum(poitem.price) as total, address.zip as zip FROM po, poitem, users, address WHERE poitem.id = po.id AND po.userid = users.userid AND users.billing = address.zip GROUP BY users.uiserid, address.zip";
+		String query = "SELECT users.userid as uid, sum(poitem.price) as total, address.zip as zip FROM po, poitem, users, address WHERE poitem.id = po.id AND po.userid = users.userid AND users.billing = address.id GROUP BY users.userid, address.zip";
 //		query.concat("FROM po, poitem, users, address ");
 //		query.concat("WHERE poitem.id = po.id AND po.userid = users.userid AND users.billing = address.zip ");
 //		query.concat("GROUP BY users.uiserid, address.zip");
