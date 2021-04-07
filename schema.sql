@@ -58,7 +58,7 @@ CREATE TABLE PO (
     userid     VARCHAR(320) NOT NULL,
     status     VARCHAR(10) NOT NULL,
     PRIMARY KEY(id),
-    FOREIGN KEY(userid) REFERENCES Users(id),
+    FOREIGN KEY(userid) REFERENCES Users(userid),
     CONSTRAINT status_check CHECK
         (
             status IN ('ORDERED','PROCESSED','DENIED')
