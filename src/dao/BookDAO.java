@@ -34,7 +34,8 @@ public class BookDAO {
 			String title = r.getString("TITLE");
 			double price = r.getDouble("PRICE");
 			String category = r.getString("CATEGORY");
-			BookBean book = new BookBean(bid, title, price, category);
+			String cover = r.getString("COVER");
+			BookBean book = new BookBean(bid, title, price, category, cover);
 			result.add(book);
 		}
 		r.close();
@@ -55,7 +56,8 @@ public class BookDAO {
 			String title = r.getString("TITLE");
 			double price = r.getDouble("PRICE");
 			String category = r.getString("CATEGORY");
-			BookBean book = new BookBean(bid, title, price, category);
+			String cover = r.getString("COVER");
+			BookBean book = new BookBean(bid, title, price, category, cover);
 			result.add(book);
 		}
 		r.close();
@@ -75,7 +77,8 @@ public class BookDAO {
 			String title = r.getString("TITLE");
 			double price = r.getDouble("PRICE");
 			String category = r.getString("CATEGORY");
-			BookBean book = new BookBean(bid, title, price, category);
+			String cover = r.getString("COVER");
+			BookBean book = new BookBean(bid, title, price, category, cover);
 			result.add(book);
 		}
 		r.close();
@@ -96,7 +99,8 @@ public class BookDAO {
 			String title = r.getString("TITLE");
 			double price = r.getDouble("PRICE");
 			String category = r.getString("CATEGORY");
-			BookBean book = new BookBean(bid, title, price, category);
+			String cover = r.getString("COVER");
+			BookBean book = new BookBean(bid, title, price, category, cover);
 			res.add(book);
 		}
 		r.close();
