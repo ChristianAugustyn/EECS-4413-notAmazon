@@ -42,14 +42,14 @@ public class PurchaseOrderItemDAO {
 		return result;
 	}
 
-	public void addPurchaseOrderItem(int id, String bid, double price) throws SQLException {
-		String query = "INSERT INTO poitem (id, bid, price) values (?,?,?)";
+	public void addPurchaseOrderItem(String bid, double price, int poid) throws SQLException {
+		String query = "INSERT INTO poitem (bid, price, poid) values (?,?,?)";
 		Connection con = this.ds.getConnection();
 		PreparedStatement stmt = con.prepareStatement(query);
 		
-		stmt.setInt(1, id);
-		stmt.setString(2, bid);
-		stmt.setDouble(3, price);
+		stmt.setString(1, bid);
+		stmt.setDouble(2, price);
+		stmt.setInt(3, poid);
 		
 		stmt.executeUpdate();
 		stmt.close();

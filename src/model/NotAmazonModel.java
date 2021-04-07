@@ -19,7 +19,10 @@ public class NotAmazonModel {
 	ReviewDAO reviewDAO;
 	AddressDAO addressDAO;
 	PurchaseOrderDAO purchaseOrderDAO;
+	PurchaseOrderItemDAO purchaseOrderItemDAO;
 	UsersDAO usersDAO;
+	AdminDAO adminDAO;
+	int totalOrders;
 	
 	private NotAmazonModel() {
 	}
@@ -32,7 +35,10 @@ public class NotAmazonModel {
 			instance.reviewDAO = new ReviewDAO();
 			instance.addressDAO = new AddressDAO();
 			instance.purchaseOrderDAO = new PurchaseOrderDAO();
+			instance.purchaseOrderItemDAO = new PurchaseOrderItemDAO();
 			instance.usersDAO = new UsersDAO();
+			instance.adminDAO = new AdminDAO();
+			instance.totalOrders = 0;
 		}
 		return instance;
 	}
@@ -147,7 +153,7 @@ public class NotAmazonModel {
 		ArrayList<ReviewBean> dbResult = reviewDAO.getReviewsByBook(bookId);
 		
 		if(dbResult.isEmpty()) {
-			throw new NotFoundException("No reviews exist");
+			return "";
 		}
 		
 		JsonArrayBuilder reviews = Json.createArrayBuilder();
@@ -213,17 +219,31 @@ public class NotAmazonModel {
 //		return resultObj.build().toString();
 	}
 	
-	public String addPurchaseOrder(String lname, String fname, String status, int a_id) throws SQLException {
-		int id = purchaseOrderDAO.addPurchaseOrder(lname, fname, status, a_id);
+	public int addPurchaseOrder(String userID, int billing, int shipping) throws SQLException {
+		instance.totalOrders += 1;
+		System.out.println(instance.totalOrders);
+		if((instance.totalOrders % 3) != 0) {
+			int id = purchaseOrderDAO.addPurchaseOrder(userID, "ORDERED", billing, shipping);
+			return id;
+		} else {
+			int id = purchaseOrderDAO.addPurchaseOrder(userID, "DENIED", billing, shipping);
+			return -1;
+			
+		}
 		
-		JsonObjectBuilder addedPurchaseOrder = Json.createObjectBuilder();
-		addedPurchaseOrder.add("id", id)
-			.add("lname", lname)
-			.add("fname", fname)
-			.add("status", status)
-			.add("address_id", a_id);
-		JsonObjectBuilder resultObj = Json.createObjectBuilder().add("addedPurchaseOrder", addedPurchaseOrder);
-		return resultObj.build().toString();
+		
+//		JsonObjectBuilder addedPurchaseOrder = Json.createObjectBuilder();
+//		addedPurchaseOrder.add("id", id)
+//			.add("lname", lname)
+//			.add("fname", fname)
+//			.add("status", status)
+//			.add("address_id", a_id);
+//		JsonObjectBuilder resultObj = Json.createObjectBuilder().add("addedPurchaseOrder", addedPurchaseOrder);
+//		return resultObj.build().toString();
+	}
+	
+	public void addItem(String bid, double price, int poID) throws SQLException {
+		purchaseOrderItemDAO.addPurchaseOrderItem(bid, price, poID);
 	}
 	
 	public void addUser(String userId, String userpw, String lname, String fname, int shipping, int billing) throws SQLException {
@@ -278,6 +298,50 @@ public class NotAmazonModel {
 		JsonObjectBuilder resultObject = Json.createObjectBuilder().add("userSpentZip", spentZip);
 		JsonObject jsonResult = resultObject.build();
 		return jsonResult.toString();
+	}
+	
+	public String getUserInfo(String userID) throws SQLException {
+		UsersBean user = usersDAO.getUser(userID);
+		int billingID = user.getBilling();
+		int shippingID = user.getShipping();
+		AddressBean shipping = addressDAO.getAddressById(shippingID);
+		AddressBean billing = addressDAO.getAddressById(billingID);
+		
+		
+		String fName = user.getFname();
+		String lName = user.getLname();
+		
+		int b_id = billing.getId();
+		String b_fname = billing.getFname();
+		String b_lname = billing.getLname();
+		String b_address = billing.getStreet();
+		String b_city = billing.getCity();
+		String b_country = billing.getCountry();
+		String b_stateprovince = billing.getProvince();
+		String b_zipcode = billing.getZip();
+		
+		int s_id = shipping.getId();
+		String s_fname = shipping.getFname();
+		String s_lname = shipping.getLname();
+		String s_address = shipping.getStreet();
+		String s_city = shipping.getCity();
+		String s_country = shipping.getCountry();
+		String s_stateprovince = shipping.getProvince();
+		String s_zipcode = shipping.getZip();
+		
+		JsonObjectBuilder resultObject = Json.createObjectBuilder();
+		resultObject.add("fName", fName).add("lName", lName).add("b_id", b_id)
+		.add("b_fname", b_fname).add("b_lname", b_lname).add("b_address", b_address)
+		.add("b_city", b_city).add("b_country", b_country).add("b_stateprovince", b_stateprovince)
+		.add("b_zipcode", b_zipcode).add("s_id", s_id).add("s_fname", s_fname).add("s_lname", s_lname)
+		.add("s_address", s_address).add("s_city", s_city).add("s_country", s_country)
+		.add("s_stateprovince", s_stateprovince).add("s_zipcode", s_zipcode);
+		return resultObject.build().toString();
+		
+	}
+	
+	public String getUserIdByToken(String token) throws SQLException {
+		return usersDAO.getUserIdByToken(token);
 	}
 	
 	public int insertTest(int id, String message) throws SQLException {

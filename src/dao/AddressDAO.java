@@ -50,31 +50,28 @@ public class AddressDAO {
 		return result;
 	}
 	
-	public ArrayList<AddressBean> getAddressById(int id) throws SQLException {
+	public AddressBean getAddressById(int id) throws SQLException {
 		String query = "SELECT * FROM address WHERE id = ?";
 		Connection con = this.ds.getConnection();
 		PreparedStatement stmt = con.prepareStatement(query);
 		stmt.setInt(1, id);
 		ResultSet r = stmt.executeQuery();
-		ArrayList<AddressBean> result = new ArrayList<AddressBean>();
-		while(r.next()) {
-			int a_id = r.getInt("ID");
-			String lname = r.getString("LNAME");
-			String fname = r.getString("FNAME");
-			String street = r.getString("STREET");
-			String city = r.getString("CITY");
-			String province = r.getString("PROVINCE");
-			String country = r.getString("COUNTRY");
-			String zip = r.getString("ZIP");
-			String phone = r.getString("PHONE");
-			String addressType = r.getString("ADDRESSTYPE");
-			AddressBean address = new AddressBean(a_id, lname, fname, street, city, province, country, zip, phone, addressType);
-			result.add(address);
-		}
+		r.next();
+		int a_id = r.getInt("ID");
+		String lname = r.getString("LNAME");
+		String fname = r.getString("FNAME");
+		String street = r.getString("STREET");
+		String city = r.getString("CITY");
+		String province = r.getString("PROVINCE");
+		String country = r.getString("COUNTRY");
+		String zip = r.getString("ZIP");
+		String phone = r.getString("PHONE");
+		String addressType = r.getString("ADDRESSTYPE");
+		AddressBean address = new AddressBean(a_id, lname, fname, street, city, province, country, zip, phone, addressType);
 		r.close();
 		stmt.close();
 		con.close();
-		return result;
+		return address;
 	}
 	
 	public int addAddress(String lname, String fname, String street, String city, String province,
