@@ -3,6 +3,7 @@ CREATE TABLE Book (
     title       VARCHAR(75) NOT NULL,
     price       DECIMAL(4, 2) NOT NULL,
     category    VARCHAR(30) NOT NULL,
+    cover       VARCHAR(80) NOT NULL,
     PRIMARY KEY(bid),
     CONSTRAINT category_check CHECK
         (
@@ -12,27 +13,27 @@ CREATE TABLE Book (
         )
 );
 
-INSERT INTO Book (bid, title, price, category) values
-    ('b001', 'Alice In Wonderland', 44.54, 'Fantasy'),
-    ('b002', 'A Tale of Two Cities', 16.82, 'Historical Fiction'),
-    ('b003', 'Common Sense', 12.00, 'Non-Fiction'),
-    ('b004', 'Dracula', 37.59, 'Horror'),
-    ('b005', 'Frankenstein', 25.39, 'Science Fiction'),
-    ('b006', 'Adventures of Huckleberry Finn', 30.36, 'Picaresque Novel'),
-    ('b007', 'Jane Eyre', 16.60, 'Victorian Literature'),
-    ('b008', 'Narrative of the Captivity and Restoration of Mrs. Mary Rowlandson', 32.80, 'Autobiography'),
-    ('b009', 'The Metamorphisis', 16.95, 'Modernist Fiction'),
-    ('b010', 'Moby Dick', 17.61, 'Adventure Fiction'),
-    ('b011', 'Peter Pan', 18.39, 'Fantasy'),
-    ('b012', 'Pride and Prejudice', 16.82, 'Romance'),
-    ('b013', 'The Adventures of Sherlock Holmes', 29.76, 'Fiction'),
-    ('b014', 'Siddhartha', 7.58, 'Philosophical Fiction'),
-    ('b015', 'The Importance of Being Earnest', 7.84, 'Comedy'),
-    ('b016', 'The Legend of Sleepy Hollow', 58.93, 'Horror'),
-    ('b017', 'The Time Machine', 4.00, 'Science Fiction'),
-    ('b018', 'The Adventures of Tom Sawyer', 11.50, 'Picaresque Novel'),
-    ('b019', 'The Yellow Wallpaper', 27.89, 'Psychological Fiction'),
-    ('b020', 'War and Peace', 13.81, 'Historical Fiction');
+INSERT INTO Book (bid, title, price, category, cover) values
+    ('b001', 'Alice In Wonderland', 44.54, 'Fantasy', 'http://covers.openlibrary.org/b/olid/OL27002614M-L.jpg'),
+    ('b002', 'A Tale of Two Cities', 16.82, 'Historical Fiction', 'http://covers.openlibrary.org/b/olid/-L.jpg'),
+    ('b003', 'Common Sense', 12.00, 'Non-Fiction', 'http://covers.openlibrary.org/b/olid/-L.jpg'),
+    ('b004', 'Dracula', 37.59, 'Horror', 'http://covers.openlibrary.org/b/olid/OL17848562M-L.jpg'),
+    ('b005', 'Frankenstein', 25.39, 'Science Fiction', 'http://covers.openlibrary.org/b/olid/OL6942528M-L.jpg'),
+    ('b006', 'Adventures of Huckleberry Finn', 30.36, 'Picaresque Novel', 'http://covers.openlibrary.org/b/olid/OL2030579M-L.jpg'),
+    ('b007', 'Jane Eyre', 16.60, 'Victorian Literature', 'http://covers.openlibrary.org/b/olid/OL14015946M-L.jpg'),
+    ('b008', 'Narrative of the Captivity and Restoration of Mrs. Mary Rowlandson', 32.80, 'Autobiography', 'http://covers.openlibrary.org/b/olid/OL27770747M-L.jpg'),
+    ('b009', 'The Metamorphisis', 16.95, 'Modernist Fiction', 'http://covers.openlibrary.org/b/olid/OL8729972M-L.jpg'),
+    ('b010', 'Moby Dick', 17.61, 'Adventure Fiction', 'http://covers.openlibrary.org/b/olid/OL32062320M-L.jpg'),
+    ('b011', 'Peter Pan', 18.39, 'Fantasy', 'http://covers.openlibrary.org/b/olid/OL32132888M-L.jpg'),
+    ('b012', 'Pride and Prejudice', 16.82, 'Romance', 'http://covers.openlibrary.org/b/olid/OL8327968M-L.jpg'),
+    ('b013', 'The Adventures of Sherlock Holmes', 29.76, 'Fiction', 'http://covers.openlibrary.org/b/olid/OL27919751M-L.jpg'),
+    ('b014', 'Siddhartha', 7.58, 'Philosophical Fiction', 'http://covers.openlibrary.org/b/olid/OL9525932M-L.jpg'),
+    ('b015', 'The Importance of Being Earnest', 7.84, 'Comedy', 'http://covers.openlibrary.org/b/olid/OL27704750M-L.jpg'),
+    ('b016', 'The Legend of Sleepy Hollow', 58.93, 'Horror', 'http://covers.openlibrary.org/b/olid/OL23155118M-L.jpg'),
+    ('b017', 'The Time Machine', 4.00, 'Science Fiction', 'http://covers.openlibrary.org/b/olid/OL28166043M-L.jpg'),
+    ('b018', 'The Adventures of Tom Sawyer', 11.50, 'Picaresque Novel', 'http://covers.openlibrary.org/b/olid/OL3410324M-L.jpg'),
+    ('b019', 'The Yellow Wallpaper', 27.89, 'Psychological Fiction', 'http://covers.openlibrary.org/b/olid/OL27767475M-L.jpg'),
+    ('b020', 'War and Peace', 13.81, 'Historical Fiction', 'http://covers.openlibrary.org/b/olid/OL28288911M-L.jpg');
 
 CREATE TABLE Address (
     id          INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
@@ -54,12 +55,10 @@ CREATE TABLE Address (
 
 CREATE TABLE PO (
     id         INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    lname      VARCHAR(20) NOT NULL,
-    fname      VARCHAR(20) NOT NULL,
+    userid     VARCHAR(320) NOT NULL,
     status     VARCHAR(10) NOT NULL,
-    address_id INT NOT NULL,
     PRIMARY KEY(id),
-    FOREIGN KEY (address_id) REFERENCES Address (id) ON DELETE CASCADE,
+    FOREIGN KEY(userid) REFERENCES Users(userid),
     CONSTRAINT status_check CHECK
         (
             status IN ('ORDERED','PROCESSED','DENIED')
@@ -67,7 +66,7 @@ CREATE TABLE PO (
 );
 
 CREATE TABLE POItem (
-    id      INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+    id      INT NOT NULL,
     bid     VARCHAR(20) NOT NULL,
     price   DECIMAL(4, 2) NOT NULL,
     PRIMARY KEY(id,bid),

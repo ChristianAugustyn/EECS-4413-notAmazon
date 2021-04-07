@@ -5,13 +5,15 @@ public class BookBean {
 	private String title;
 	private double price;
 	private String category;
+	private String cover;
 	
-	public BookBean(String bid, String title, double price, String category) {
+	public BookBean(String bid, String title, double price, String category, String cover) {
 		super();
 		this.bid = bid;
 		this.title = title;
 		this.price = price;
 		this.category = category;
+		this.cover = cover;
 	}
 
 	public String getBid() {
@@ -28,6 +30,10 @@ public class BookBean {
 
 	public String getCategory() {
 		return category;
+	}
+	
+	public String getCover() {
+		return cover;
 	}
 	
 	

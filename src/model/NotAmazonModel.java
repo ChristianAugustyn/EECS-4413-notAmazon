@@ -247,6 +247,39 @@ public class NotAmazonModel {
 		return usersDAO.isValidToken(token);
 	}
 	
+	public String getTopTen() throws SQLException {
+		ArrayList<TopTenBean> dbResult = adminDAO.getTopTen();
+		
+		JsonArrayBuilder topten = Json.createArrayBuilder();
+		for (TopTenBean ele: dbResult) {
+			JsonObjectBuilder jsonElement = Json.createObjectBuilder();
+			jsonElement.add("bid", ele.getBid())
+					.add("title", ele.getTitle())
+					.add("count", ele.getCount());
+			topten.add(jsonElement);
+		}
+		JsonObjectBuilder resultObject = Json.createObjectBuilder().add("topTenBooks", topten);
+		JsonObject jsonResult = resultObject.build();
+		return jsonResult.toString();
+	}
+	
+	public String getAllSpentAndZipForUsers() throws SQLException {
+		ArrayList<SpentZipBean> dbResult = adminDAO.getAllSpentAndZipForUsers();
+		
+		JsonArrayBuilder spentZip = Json.createArrayBuilder();
+		for (SpentZipBean ele: dbResult ) {
+			JsonObjectBuilder jsonElement = Json.createObjectBuilder();
+//			jsonElement.add("userid", ele.getUserid())
+			jsonElement.add("userid", "***")
+					.add("total", ele.getSpent())
+					.add("zip", ele.getZip());
+			spentZip.add(jsonElement);
+		}
+		JsonObjectBuilder resultObject = Json.createObjectBuilder().add("userSpentZip", spentZip);
+		JsonObject jsonResult = resultObject.build();
+		return jsonResult.toString();
+	}
+	
 	public int insertTest(int id, String message) throws SQLException {
 		return testDAO.insertToTest(id, message);
 	}
