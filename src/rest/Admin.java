@@ -20,10 +20,16 @@ import model.NotAmazonModel;
 public class Admin {
 	@GET
 	@Path("/bookssold")
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getBooksSold() {
+	public Response getBooksSold(String data) {
 		try {
-			String booksSold = NotAmazonModel.getInstance().getBooksSold();
+			JSONObject recoveryData = new JSONObject(data);
+			int year = recoveryData.getInt("year");
+			int month = recoveryData.getInt("month");
+			
+			
+			String booksSold = NotAmazonModel.getInstance().getBooksSoldMonth(year, month);
 			return Response.ok(booksSold, MediaType.APPLICATION_JSON).build();
 		} catch (Exception e) {
 			return Response.status(400).entity(e.getMessage()).build();
