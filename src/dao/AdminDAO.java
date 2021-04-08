@@ -26,7 +26,7 @@ public class AdminDAO {
 		}
 	}
 	
-	public ArrayList<BooksSoldBean> getBooksSold() throws SQLException {
+	public ArrayList<BooksSoldBean> getBooksSoldMonth(int year, int month) throws SQLException {
 		String query = "select\r\n"
 				+ "po.orderdate, poitem.bid, book.title, count(poitem.bid) as count\r\n"
 				+ "from\r\n"
@@ -35,10 +35,14 @@ public class AdminDAO {
 				+ "po.id = poitem.poid\r\n"
 				+ "AND poitem.bid = book.bid\r\n"
 				+ "AND po.status = 'PROCESSED'\r\n"
+				+ "AND YEAR(po.orderdate) = ?\r\n"
+				+ "AND MONTH(po.orderdate) = ?\r\n"
 				+ "group by\r\n"
 				+ "po.orderdate, poitem.bid, book.title";
 		Connection con = this.ds.getConnection();
 		PreparedStatement stmt = con.prepareStatement(query);
+		stmt.setInt(1, year);
+		stmt.setInt(2, month);
 		ResultSet r = stmt.executeQuery();
 		ArrayList<BooksSoldBean> result = new ArrayList<BooksSoldBean>();
 		while(r.next()) {
