@@ -18,7 +18,19 @@ import model.NotAmazonModel;
 
 @Path("/admin")
 public class Admin {
-    @GET
+	@GET
+	@Path("/bookssold")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getBooksSold() {
+		try {
+			String booksSold = NotAmazonModel.getInstance().getBooksSold();
+			return Response.ok(booksSold, MediaType.APPLICATION_JSON).build();
+		} catch (Exception e) {
+			return Response.status(400).entity(e.getMessage()).build();
+		}
+	}
+	
+	@GET
 	@Path("/topten")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getTopTen() {
