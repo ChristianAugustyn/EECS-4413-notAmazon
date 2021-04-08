@@ -269,6 +269,23 @@ public class NotAmazonModel {
 		return usersDAO.isValidToken(token);
 	}
 	
+	public String getBooksSold() throws SQLException {
+		ArrayList<BooksSoldBean> dbResult = adminDAO.getBooksSold();
+		
+		JsonArrayBuilder booksSold = Json.createArrayBuilder();
+		for (BooksSoldBean ele: dbResult) {
+			JsonObjectBuilder jsonElement = Json.createObjectBuilder();
+			jsonElement.add("date", ele.getDate().toString())
+					.add("bid", ele.getBid())
+					.add("title", ele.getTitle())
+					.add("count", ele.getCount());
+			booksSold.add(jsonElement);
+		}
+		JsonObjectBuilder resultObj = Json.createObjectBuilder().add("booksSold", booksSold);
+		JsonObject jsonResult = resultObj.build();
+		return jsonResult.toString();
+	}
+	
 	public String getTopTen() throws SQLException {
 		ArrayList<TopTenBean> dbResult = adminDAO.getTopTen();
 		
