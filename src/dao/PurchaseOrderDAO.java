@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -45,8 +46,8 @@ public class PurchaseOrderDAO {
 		return result;
 	}
 	
-	public int addPurchaseOrder(String userId, String status, int billing, int shipping) throws SQLException {
-		String query = "INSERT INTO po (userid, status, billing, shipping) values(?,?,?,?)";
+	public int addPurchaseOrder(String userId, String status, int billing, int shipping, Date date) throws SQLException {
+		String query = "INSERT INTO po (userid, status, billing, shipping, orderdate) values(?,?,?,?,?)";
 		Connection con = this.ds.getConnection();
 		PreparedStatement stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 		
@@ -54,6 +55,7 @@ public class PurchaseOrderDAO {
 		stmt.setString(2, status);
 		stmt.setInt(3, billing);
 		stmt.setInt(4, shipping);
+		stmt.setDate(5, date);
 		
 		stmt.executeUpdate();
 		ResultSet r = stmt.getGeneratedKeys();
