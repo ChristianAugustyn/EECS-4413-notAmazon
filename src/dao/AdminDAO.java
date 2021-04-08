@@ -14,6 +14,7 @@ import javax.sql.DataSource;
 import bean.BooksSoldBean;
 import bean.SpentZipBean;
 import bean.TopTenBean;
+import bean.PartnerOrderInfoBean;
 
 public class AdminDAO {
 	DataSource ds;
@@ -99,6 +100,46 @@ public class AdminDAO {
 			String zip = r.getString("zip");
 			SpentZipBean spentZip = new SpentZipBean(uid, total, zip);
 			result.add(spentZip);
+		}
+		r.close();
+		stmt.close();
+		con.close();
+		return result;
+	}
+	
+	// for partners
+	public ArrayList<PartnerOrderInfoBean> getOrdersByPartNumber(String bid) throws SQLException {
+		String query = "SELECT\r\n"
+				+ "po.orderdate, po.id, tmp.bid, po.status\r\n"
+				+ "from\r\n"
+				+ "po, (\r\n"
+				+ "		SELECT\r\n"
+				+ "		poitem.poid as poid, poitem.bid as bid\r\n"
+				+ "		from\r\n"
+				+ "		po, poitem\r\n"
+				+ "		where\r\n"
+				+ "		poitem.bid = ?\r\n"
+				+ "		group by\r\n"
+				+ "		poitem.poid, poitem.bid\r\n"
+				+ "		order by\r\n"
+				+ "		poitem.poid\r\n"
+				+ "	) as tmp\r\n"
+				+ "where\r\n"
+				+ "po.id = tmp.poid\r\n"
+				+ "order by\r\n"
+				+ "po.id";
+		Connection con = this.ds.getConnection();
+		PreparedStatement stmt = con.prepareStatement(query);
+		stmt.setString(1, bid);
+		ResultSet r = stmt.executeQuery();
+		ArrayList<PartnerOrderInfoBean> result = new ArrayList<PartnerOrderInfoBean>();
+		while(r.next()) {
+			Date orderDate = r.getDate("ORDERDATE");
+			int poid = r.getInt("ID");
+			String bookId = r.getString("BID");
+			String status = r.getString("STATUS");
+			PartnerOrderInfoBean orderInfo = new PartnerOrderInfoBean(orderDate, poid, bookId, status);
+			result.add(orderInfo);
 		}
 		r.close();
 		stmt.close();
