@@ -363,6 +363,23 @@ public class NotAmazonModel {
 		
 	}
 	
+	public String getOrdersByPartNumber(String bid) throws SQLException {
+		ArrayList<PartnerOrderInfoBean> dbResult = adminDAO.getOrdersByPartNumber(bid);
+		
+		JsonArrayBuilder orderInfo = Json.createArrayBuilder();
+		for (PartnerOrderInfoBean ele: dbResult) {
+			JsonObjectBuilder jsonElement = Json.createObjectBuilder();
+			jsonElement.add("orderDate", ele.getOrderDate().toString())
+					.add("id", ele.getId())
+					.add("bid", ele.getBid())
+					.add("status", ele.getStatus());
+			orderInfo.add(jsonElement);
+		}
+		JsonObjectBuilder resultObject = Json.createObjectBuilder().add("orderInfoByBID", orderInfo);
+		JsonObject jsonResult = resultObject.build();
+		return jsonResult.toString();
+	}
+	
 	public String getUserIdByToken(String token) throws SQLException {
 		return usersDAO.getUserIdByToken(token);
 	}
