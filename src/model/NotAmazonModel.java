@@ -53,7 +53,8 @@ public class NotAmazonModel {
 			jsonBook.add("bid", book.getBid())
 					.add("title", book.getTitle())
 					.add("price", book.getPrice())
-					.add("category", book.getCategory());
+					.add("category", book.getCategory())
+					.add("cover", book.getCover());
 			books.add(jsonBook);
 		}
 		JsonObjectBuilder resultObject = Json.createObjectBuilder().add("allBooks", books);
@@ -70,7 +71,8 @@ public class NotAmazonModel {
 			jsonBook.add("bid", book.getBid())
 					.add("title", book.getTitle())
 					.add("price", book.getPrice())
-					.add("category", book.getCategory());
+					.add("category", book.getCategory())
+					.add("cover", book.getCover());
 			books.add(jsonBook);
 		}
 		JsonObjectBuilder resultObject = Json.createObjectBuilder().add("allBooks", books);
@@ -95,7 +97,8 @@ public class NotAmazonModel {
 		book.add("bid", b.getBid())
 				.add("title", b.getTitle())
 				.add("price", b.getPrice())
-				.add("category", b.getCategory());
+				.add("category", b.getCategory())
+				.add("cover", b.getCover());
 		
 		JsonObjectBuilder resultObj = Json.createObjectBuilder().add("book", book);
 		
@@ -112,7 +115,8 @@ public class NotAmazonModel {
 			jsonBook.add("bid", book.getBid())
 					.add("title", book.getTitle())
 					.add("price", book.getPrice())
-					.add("category", book.getCategory());
+					.add("category", book.getCategory())
+					.add("cover", book.getCover());
 			books.add(jsonBook);
 		}
 		JsonObjectBuilder resultObject = Json.createObjectBuilder().add("allBooks", books);
