@@ -273,8 +273,8 @@ public class NotAmazonModel {
 		return usersDAO.isValidToken(token);
 	}
 	
-	public String getBooksSold() throws SQLException {
-		ArrayList<BooksSoldBean> dbResult = adminDAO.getBooksSold();
+	public String getBooksSoldMonth(int year, int month) throws SQLException {
+		ArrayList<BooksSoldBean> dbResult = adminDAO.getBooksSoldMonth(year, month);
 		
 		JsonArrayBuilder booksSold = Json.createArrayBuilder();
 		for (BooksSoldBean ele: dbResult) {
