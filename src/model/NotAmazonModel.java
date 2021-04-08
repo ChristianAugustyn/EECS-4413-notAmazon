@@ -1,6 +1,7 @@
 package model;
 
 import java.lang.reflect.Array;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.json.Json;
@@ -220,13 +221,14 @@ public class NotAmazonModel {
 	}
 	
 	public int addPurchaseOrder(String userID, int billing, int shipping) throws SQLException {
+		Date date = new Date(System.currentTimeMillis());
 		instance.totalOrders += 1;
 		System.out.println(instance.totalOrders);
 		if((instance.totalOrders % 3) != 0) {
-			int id = purchaseOrderDAO.addPurchaseOrder(userID, "ORDERED", billing, shipping);
+			int id = purchaseOrderDAO.addPurchaseOrder(userID, "ORDERED", billing, shipping, date);
 			return id;
 		} else {
-			int id = purchaseOrderDAO.addPurchaseOrder(userID, "DENIED", billing, shipping);
+			int id = purchaseOrderDAO.addPurchaseOrder(userID, "DENIED", billing, shipping, date);
 			return -1;
 			
 		}

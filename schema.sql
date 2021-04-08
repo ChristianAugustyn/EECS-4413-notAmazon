@@ -72,6 +72,7 @@ CREATE TABLE PO (
     status     VARCHAR(10) NOT NULL,
     billing INT NOT NULL,
     shipping INT NOT NULL,
+    orderdate DATE NOT NULL,
     PRIMARY KEY(id),
     FOREIGN KEY(userid) REFERENCES Users(userid),
     FOREIGN KEY(billing) REFERENCES Address(id),
