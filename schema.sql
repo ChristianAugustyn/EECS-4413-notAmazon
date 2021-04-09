@@ -46,8 +46,8 @@ CREATE TABLE Book (
 
 INSERT INTO Book (bid, title, price, category, cover) values
     ('b001', 'Alice In Wonderland', 44.54, 'Fantasy', 'http://covers.openlibrary.org/b/olid/OL27002614M-L.jpg'),
-    ('b002', 'A Tale of Two Cities', 16.82, 'Historical Fiction', 'http://covers.openlibrary.org/b/olid/-L.jpg'),
-    ('b003', 'Common Sense', 12.00, 'Non-Fiction', 'http://covers.openlibrary.org/b/olid/-L.jpg'),
+    ('b002', 'A Tale of Two Cities', 16.82, 'Historical Fiction', 'http://covers.openlibrary.org/b/olid/OL24221261M-L.jpg'),
+    ('b003', 'Common Sense', 12.00, 'Non-Fiction', 'http://covers.openlibrary.org/b/olid/OL909048M-L.jpg'),
     ('b004', 'Dracula', 37.59, 'Horror', 'http://covers.openlibrary.org/b/olid/OL17848562M-L.jpg'),
     ('b005', 'Frankenstein', 25.39, 'Science Fiction', 'http://covers.openlibrary.org/b/olid/OL6942528M-L.jpg'),
     ('b006', 'Adventures of Huckleberry Finn', 30.36, 'Picaresque Novel', 'http://covers.openlibrary.org/b/olid/OL2030579M-L.jpg'),
@@ -133,5 +133,31 @@ insert into ADDRESS (lname, fname, street, city, province, country, zip, phone, 
     
 insert into USERS (USERID, USERPW, LNAME, FNAME, SHIPPING, BILLING) values
 	('johnSmith', 'myPassword', 'Smith', 'John', 2, 2);
+
+INSERT INTO Address (lname, fname, street, city, province, country, zip, phone, addressType) VALUES
+    ('last', 'first', '123 Fake Street', 'North York', 'ON', 'Canada', 'm4m 1x9', '911', 'BOTH'),
+    ('last', 'first', '123 Fake Street', 'North York', 'ON', 'Canada', 'm4m 1y9', '912', 'BOTH');
+
+INSERT INTO Users (userId, userPw, lname, fname, shipping, billing, token) VALUES
+    ('ausername', 'apassword', 'last', 'first', 1, 1, 'somekindatoken'),
+    ('ausername2', 'apassword', 'last', 'first', 2, 2, 'somekindatoken'),
+    ('ausername3', 'apassword', 'last', 'first', 2, 2, 'somekindatoken');
+
+insert into po (userid, orderdate, status, billing, shipping) values
+    ('ausername', '2021-04-1', 'PROCESSED', 1, 1),
+    ('ausername', '2021-04-20', 'PROCESSED', 1, 1),
+    ('ausername2', '2021-05-13', 'PROCESSED', 2, 2),
+    ('ausername2', '2021-06-09', 'PROCESSED', 2, 2),
+    ('ausername3', '2021-06-11', 'DENIED', 2, 2);
+
+INSERT INTO poitem (poid, bid, price) VALUES
+    (1, 'b001', 44.54),
+    (1, 'b002', 16.82),
+    (1, 'b003', 12.00),
+    (2, 'b004', 37.59),
+    (3, 'b001', 44.54),
+    (3, 'b002', 16.82),
+    (4, 'b003', 12.00),
+    (5, 'b001', 44.54);
     
     

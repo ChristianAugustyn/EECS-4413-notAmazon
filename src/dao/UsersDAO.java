@@ -16,14 +16,14 @@ public class UsersDAO {
 	
 	public UsersDAO() throws ClassNotFoundException{
 		try {
-			ds = (DataSource) (new InitialContext().lookup("java:/comp/env/jdbc/notAmazonDB"));
+			ds = (DataSource) (new InitialContext().lookup("jdbc/Db2-notAmazon"));
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void addUser(String userId, String userpw, String lname, String fname, int shipping, int billing) throws SQLException {
-		String query = "INSERT INTO users (userid, userpw, lname, fname, shipping, billing) values(?,?,?,?,?,?)";
+	public void addUser(String userId, String userpw, String lname, String fname, int shipping, int billing, String accountType) throws SQLException {
+		String query = "INSERT INTO users (userid, userpw, lname, fname, shipping, billing, accounttype) values(?,?,?,?,?,?,?)";
 		Connection con = this.ds.getConnection();
 		PreparedStatement stmt = con.prepareStatement(query);
 		
@@ -33,6 +33,7 @@ public class UsersDAO {
 		stmt.setString(4, fname);
 		stmt.setInt(5, shipping);
 		stmt.setInt(6, billing);
+		stmt.setString(7, accountType);
 		
 		stmt.executeUpdate();
 		stmt.close();
@@ -52,8 +53,9 @@ public class UsersDAO {
 		String fname = r.getString("fname");
 		int shipping = r.getInt("shipping");
 		int billing = r.getInt("billing");
+		String accountType = r.getString("accounttype");
 		String token = r.getString("token");
-		UsersBean user = new UsersBean(userId, userPw, lname, fname, shipping, billing, token);
+		UsersBean user = new UsersBean(userId, userPw, lname, fname, shipping, billing, accountType, token);
 		r.close();
 		stmt.close();
 		con.close();
