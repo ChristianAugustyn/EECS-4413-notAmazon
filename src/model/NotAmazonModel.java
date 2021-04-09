@@ -18,7 +18,6 @@ import dao.*;
 
 public class NotAmazonModel {
 	private static NotAmazonModel instance;
-	TestDAO testDAO;
 	BookDAO bookDAO;
 	ReviewDAO reviewDAO;
 	AddressDAO addressDAO;
@@ -34,7 +33,6 @@ public class NotAmazonModel {
 	public static NotAmazonModel getInstance() throws ClassNotFoundException {
 		if (instance == null) {
 			instance = new NotAmazonModel();
-			instance.testDAO = new TestDAO();
 			instance.bookDAO = new BookDAO();
 			instance.reviewDAO = new ReviewDAO();
 			instance.addressDAO = new AddressDAO();
@@ -387,17 +385,5 @@ public class NotAmazonModel {
 	
 	public String getUserIdByToken(String token) throws SQLException {
 		return usersDAO.getUserIdByToken(token);
-	}
-	
-	public int insertTest(int id, String message) throws SQLException {
-		return testDAO.insertToTest(id, message);
-	}
-	
-	public ArrayList<String> getTest() throws SQLException{
-		return testDAO.readTest();
-	}
-	
-	public int deleteTest(int id) throws SQLException {
-		return testDAO.deleteFromTest(id);
 	}
 }
