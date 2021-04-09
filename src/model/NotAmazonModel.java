@@ -1,6 +1,7 @@
 package model;
 
 import java.lang.reflect.Array;
+import java.nio.charset.StandardCharsets;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -9,6 +10,8 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.ws.rs.NotFoundException;
+
+import com.google.common.hash.Hashing;
 
 import bean.*;
 import dao.*;
@@ -253,7 +256,8 @@ public class NotAmazonModel {
 	}
 	
 	public void addUser(String userId, String userpw, String lname, String fname, int shipping, int billing) throws SQLException {
-		usersDAO.addUser(userId, userpw, lname, fname, shipping, billing);
+		String hashedPw = Hashing.sha256().hashString(userpw, StandardCharsets.UTF_8).toString();
+		usersDAO.addUser(userId, hashedPw, lname, fname, shipping, billing);
 	}
 	
 	public void updateUserToken(String userid, String token) throws SQLException {
@@ -262,7 +266,8 @@ public class NotAmazonModel {
 	
 	public boolean checkPassword(String userid, String password) throws SQLException {
 		UsersBean user = usersDAO.getUser(userid);
-		if(user.getUserPw().equals(password)) {
+		String hashedPw = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
+		if(user.getUserPw().equals(hashedPw)) {
 			return true;
 		} else {
 			return false;
