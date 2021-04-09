@@ -18,7 +18,7 @@ import model.NotAmazonModel;
 
 @Path("/admin")
 public class Admin {
-	@GET
+	@POST
 	@Path("/bookssold")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)

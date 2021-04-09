@@ -7,10 +7,11 @@ public class UsersBean {
 	private String fname;
 	private int shipping;
 	private int billing;
+	private String accountType;
 	private String token;
 	
 	public UsersBean(String userId, String userPw, String lname, String fname, int shipping, int billing,
-			String token) {
+			String accountType, String token) {
 		super();
 		this.userId = userId;
 		this.userPw = userPw;
@@ -18,6 +19,7 @@ public class UsersBean {
 		this.fname = fname;
 		this.shipping = shipping;
 		this.billing = billing;
+		this.accountType = accountType;
 		this.token = token;
 	}
 
@@ -43,6 +45,10 @@ public class UsersBean {
 
 	public int getBilling() {
 		return billing;
+	}
+	
+	public String getAccountType() {
+		return accountType;
 	}
 
 	public String getToken() {

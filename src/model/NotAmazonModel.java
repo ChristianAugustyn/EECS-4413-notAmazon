@@ -249,9 +249,9 @@ public class NotAmazonModel {
 		purchaseOrderItemDAO.addPurchaseOrderItem(bid, price, poID);
 	}
 	
-	public void addUser(String userId, String userpw, String lname, String fname, int shipping, int billing) throws SQLException {
+	public void addUser(String userId, String userpw, String lname, String fname, int shipping, int billing, String accountType) throws SQLException {
 		String hashedPw = Hashing.sha256().hashString(userpw, StandardCharsets.UTF_8).toString();
-		usersDAO.addUser(userId, hashedPw, lname, fname, shipping, billing);
+		usersDAO.addUser(userId, hashedPw, lname, fname, shipping, billing, accountType);
 	}
 	
 	public void updateUserToken(String userid, String token) throws SQLException {
@@ -332,6 +332,7 @@ public class NotAmazonModel {
 		
 		String fName = user.getFname();
 		String lName = user.getLname();
+		String accountType = user.getAccountType();
 		
 		int b_id = billing.getId();
 		String b_fname = billing.getFname();
@@ -352,7 +353,7 @@ public class NotAmazonModel {
 		String s_zipcode = shipping.getZip();
 		
 		JsonObjectBuilder resultObject = Json.createObjectBuilder();
-		resultObject.add("fName", fName).add("lName", lName).add("b_id", b_id)
+		resultObject.add("fName", fName).add("lName", lName).add("accountType", accountType).add("b_id", b_id)
 		.add("b_fname", b_fname).add("b_lname", b_lname).add("b_address", b_address)
 		.add("b_city", b_city).add("b_country", b_country).add("b_stateprovince", b_stateprovince)
 		.add("b_zipcode", b_zipcode).add("s_id", s_id).add("s_fname", s_fname).add("s_lname", s_lname)
@@ -360,6 +361,11 @@ public class NotAmazonModel {
 		.add("s_stateprovince", s_stateprovince).add("s_zipcode", s_zipcode);
 		return resultObject.build().toString();
 		
+	}
+	
+	public String getUserType(String uid) throws SQLException {
+		UsersBean user = usersDAO.getUser(uid);
+		return user.getAccountType();
 	}
 	
 	public String getOrdersByPartNumber(String bid) throws SQLException {

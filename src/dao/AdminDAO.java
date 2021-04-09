@@ -21,7 +21,7 @@ public class AdminDAO {
 	
 	public AdminDAO() throws ClassNotFoundException{
 		try {
-			ds = (DataSource) (new InitialContext().lookup("java:/comp/env/jdbc/notAmazonDB"));
+			ds = (DataSource) (new InitialContext().lookup("jdbc/Db2-notAmazon"));
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}

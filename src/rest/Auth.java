@@ -49,9 +49,9 @@ public class Auth {
 			String password = recoveryData.get("password").toString();
 			authenticate(username, password);
 			String token = issueToken(username);
+			String type = NotAmazonModel.getInstance().getUserType(username);
 			JsonObjectBuilder tokenJson = Json.createObjectBuilder();
-			tokenJson.add("token", token);
-			
+			tokenJson.add("token", token).add("role", type);
 			
 			return Response.ok(tokenJson.build().toString()).build();
 			
@@ -93,7 +93,7 @@ public class Auth {
 		try {
 			int b_id = NotAmazonModel.getInstance().addAddress(b_lname, b_fname, b_address, b_city, b_stateprovince, b_country, b_zipcode, "BILLING");
 			int s_id = NotAmazonModel.getInstance().addAddress(s_lname, s_fname, s_address, s_city, s_stateprovince, s_country, s_zipcode, "SHIPPING");
-			NotAmazonModel.getInstance().addUser(userId, userPw, b_lname, b_fname, s_id, b_id);
+			NotAmazonModel.getInstance().addUser(userId, userPw, b_lname, b_fname, s_id, b_id, "customer");
 			return Response.ok().build();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
