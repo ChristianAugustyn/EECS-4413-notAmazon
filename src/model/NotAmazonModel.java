@@ -158,10 +158,6 @@ public class NotAmazonModel {
 	public String getReviewsByBook(String bookId) throws SQLException, NotFoundException {
 		ArrayList<ReviewBean> dbResult = reviewDAO.getReviewsByBook(bookId);
 		
-		if(dbResult.isEmpty()) {
-			return "";
-		}
-		
 		JsonArrayBuilder reviews = Json.createArrayBuilder();
 		for (ReviewBean review: dbResult) {
 			JsonObjectBuilder jsonReview = Json.createObjectBuilder();
