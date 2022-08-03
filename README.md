@@ -1,5 +1,8 @@
 # notAmazon
 
+### Frontend
+[EECS-4413-not-amazon-client](https://github.com/ChristianAugustyn/EECS-4413-not-amazon-client/blob/master/README.md)
+
 ## How to setup the project
 
 - pull the repository onto your machine using
